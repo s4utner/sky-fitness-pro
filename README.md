@@ -1,30 +1,41 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Описание проекта
 
-Currently, two official plugins are available:
+1. **Vite**: В проекте используется Vite в качестве инструмента сборки. Это связано с его легкой настройкой и высокой
+   производительностью по сравнению с webpack.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+2. **Абсолютные импорты**: Рекомендуется использовать абсолютные импорты. Они уже настроены и должны работать. Примеры
+   использования можно найти в файле `App.tsx`. Абсолютные импорты начинаются от директории `src`(от нее уже строятся
+   пути до нужных
+   файлов), что делает пути к
+   файлам более понятными и прозрачными.
 
-## Expanding the ESLint configuration
+3. **Типизация пропсов**: При создании компонентов, которые принимают пропсы, рекомендуется типизировать их с помощью
+   интерфейсов. Название интерфейса должно быть вида `#ИМЯКОМПОНЕНТА#Props`, что делает его назначение более понятным.
+   Примеры можно найти в компоненте `Title`.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+4. **Тип PropsWithChildren**: Встроенный в React тип `PropsWithChildren` позволяет указать, что компонент может
+   содержать дочерние компоненты. Объединение типов с помощью оператора `&`(Так же смотрите компонент `Title`) позволяет
+   создавать более гибкие компоненты.
 
-- Configure the top-level `parserOptions` property like this:
+5. **Команды для запуска проекта**:
+    - `npm run dev` для запуска проекта в режиме разработки.
+    - `npm run build` билд проекта
+    - `npm run preview` просмотр проекта после билда(Возможно будут такие ошибки которые ловятся только в билде)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+6. **Форматирование и проверка ошибок**:
+    - `npm run format` для форматирования кода с использованием Prettier.
+    - `npm run lint` для проверки кода с помощью ESLint. В проекте уже настроены полезные плагины и правила ESLint.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+7. **Сортировка импортов**: Рекомендуется следующий порядок сортировки импортов(Это можем обсудить и поменять, как и что
+   угодно другое, важно узнать ваше мнение насчет того или иного решения):
+    1. Библиотеки (react, redux и т.д.).
+    2. Компоненты.
+    3. Хуки.
+    4. Типы.
+    5. Стили.
+
+8. **Коммиты**: Для более понятного назначения наших коммитов будем использовать эту
+   спецификацию: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) (Тут можно переключить язык на
+   русский, кнопка с языками в правом верхнем углу)
