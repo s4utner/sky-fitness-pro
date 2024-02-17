@@ -5,8 +5,17 @@ interface InputProps {
   inputType: string
   value: string | number
   placeholderText: string
+  onValueChange: (value: string | number) => void
 }
 
-export const Input: FC<InputProps> = ({ inputType, value, placeholderText }) => {
-  return <input className={styles.input} type={inputType} value={value} placeholder={placeholderText} />
+export const Input: FC<InputProps> = ({ inputType, value, placeholderText, onValueChange }) => {
+  return (
+    <input
+      className={styles.input}
+      type={inputType}
+      value={value}
+      placeholder={placeholderText}
+      onChange={(event) => onValueChange(event.target.value)}
+    />
+  )
 }
