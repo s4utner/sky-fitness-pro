@@ -1,11 +1,12 @@
+import type { FC } from 'react'
 import styles from './Input.module.scss'
-import type { FC, InputHTMLAttributes } from 'react'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps {
+  inputType: string
+  value: string | number
   placeholderText: string
-  value: string
 }
 
-export const Input: FC<InputProps> = ({ placeholderText, value }) => {
-  return <input className={styles.input} type="text" placeholder={placeholderText} value={value} />
+export const Input: FC<InputProps> = ({ inputType, value, placeholderText }) => {
+  return <input className={styles.input} type={inputType} value={value} placeholder={placeholderText} />
 }
