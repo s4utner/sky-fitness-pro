@@ -2,16 +2,21 @@ import styles from './Button.module.scss'
 import type { FC, ButtonHTMLAttributes } from 'react'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string
-  variant?: string
-  square?: boolean
-  disabled?: boolean
-  title?: string
-  onClick: () => void
+  variant?: 'base' | 'green' | 'transparent'
+  width?: number
 }
 
-export const ButtonUI: FC<ButtonProps> = ({ title, disabled = false, onClick }) => (
-  <button disabled={disabled} type="button" className={styles.btn} onClick={onClick}>
-    {title}
-  </button>
-)
+export const Button: FC<ButtonProps> = ({ children, variant = 'base', width = 275, ...otherProps }) => {
+  const currentVariantClass: string = styles[variant]
+
+  return (
+    <button
+      style={{ width: `${width}px` }}
+      type="button"
+      className={`${styles.btn} ${currentVariantClass}`}
+      {...otherProps}
+    >
+      {children}
+    </button>
+  )
+}

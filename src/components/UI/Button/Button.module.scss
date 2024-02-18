@@ -1,9 +1,6 @@
 .btn {
-  width: 230px;
   height: 48px;
-  border-radius: 12px;
-  background: #7ac100;
-  color: #fff;
+  border-radius: 46px;
   text-align: center;
   font-size: 24px;
   font-style: normal;
@@ -11,7 +8,51 @@
   line-height: 32px; /* 133.333% */
   border: none;
   cursor: pointer;
+  transition: all 0.3s;
+}
+
+.base {
+  background: #580ea2;
+  border: 1px solid #580ea2;
+  color: #fff;
+
   &:hover {
-    background: #7ac100cc;
+    background: #3f007d;
+    border: 1px solid #3f007d;
+  }
+
+  &:active {
+    background: #271a58;
+    border: 1px solid #271a58;
+  }
+}
+
+.green {
+  background: #c7e957;
+  border: 1px solid #c7e957;
+  color: #000;
+
+  &:hover {
+    background: #c5db7e;
+    border: 1px solid #daf289;
+  }
+
+  &:active {
+    background: #d4eb8a;
+    border: 1px solid #ebffab;
+  }
+}
+
+.transparent {
+  background: transparent;
+  border: 1px solid #d0cece;
+  color: #000;
+
+  &:hover {
+    background: #d0cece;
+  }
+
+  &:active {
+    background: #d9d9d9;
   }
 }

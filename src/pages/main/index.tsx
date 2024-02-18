@@ -6,6 +6,8 @@ const handleclick = () => console.log('Hello')
 export const Main = () => (
   <div>
     <Title color="red">Заголовок</Title>
-    <Button title="dasdas" disabled={false} onClick={handleclick} />
+    <Button variant="green" onClick={handleclick}>
+      навание кнопки
+    </Button>
   </div>
 )
