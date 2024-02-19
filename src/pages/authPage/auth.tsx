@@ -45,7 +45,7 @@ export function AuthPage() {
             <div className={styles.buttonBlock}>
               <Button>Войти</Button>
               <Button onClick={handleIsLoginMode} variant="transparent">
-                зарегестрироваться
+                Зарегистрироваться
               </Button>
             </div>
           </>
