@@ -1,0 +1,21 @@
+.card {
+  width: 360px;
+  height: 480px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  cursor: pointer;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 39.6px;
+  letter-spacing: -0.5px;
+}
+
+.myProfile {
+  box-shadow:
+    -10px 10px 15.998822212219238px 0px #0000001a,
+    10px -10px 16px 0px #0000001a;
+}
