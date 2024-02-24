@@ -1,4 +1,4 @@
-import { Button } from 'components/UI/Button/Button.tsx'
+import { Button } from 'components'
 import style from './Application.module.scss'
 import image from 'assets/images/applicationImage.png'
 

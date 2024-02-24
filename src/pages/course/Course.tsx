@@ -33,7 +33,9 @@ export const Course = () => {
               <li className={styles.tasksListItem}>Наклон назад (10 повторений)</li>
               <li className={styles.tasksListItem}>Поднятие ног, согнутых в коленях (5 повторений)</li>
             </ul>
-            <Button variant="base" children={'Заполнить свой прогресс'} fontSize={18} onClick={handleOpenModal} />
+            <Button variant="base" fontSize={18} onClick={handleOpenModal}>
+              Заполнить свой прогресс
+            </Button>
           </div>
           <div className={styles.progress}>
             <p className={styles.heading}>Мой прогресс по тренировке 2:</p>
