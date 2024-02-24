@@ -1,6 +1,6 @@
-import styles from './auth.module.scss'
+import styles from './Auth.module.scss'
 import { Input } from 'components/UI/Input/Input'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { Button } from 'components/UI/Button/Button'
 import { Logo } from 'components/UI/Logo/Logo'
@@ -9,12 +9,41 @@ export function AuthPage() {
   const [login, setLogin] = useState<string | number>('')
   const [password, setPassword] = useState<string | number>('')
   const [repeatPassword, setRepeatPassword] = useState<string | number>('')
-
   const [isLoginMode, setIsLoginMode] = useState<boolean>(true)
+  const [errorMessage, setErrorMessage] = useState('')
+  const navigate = useNavigate()
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   const handleIsLoginMode = () => {
     setIsLoginMode(false)
   }
+
+  // Функция входа пользователя
+  const handleLogin = (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    switch (true) {
+      case !login && !password: {
+        setErrorMessage('логин и пароль должны быть заполнены')
+        return
+      }
+      case !login: {
+        setErrorMessage('Введите логин')
+        return
+      }
+      case !password: {
+        setErrorMessage('Введите пароль')
+        return
+      }
+      default: {
+        localStorage.setItem('login', JSON.stringify(login))
+        localStorage.setItem('password', JSON.stringify(password))
+        setIsAuthenticated(!isAuthenticated)
+        navigate('/profile', { replace: true })
+      }
+    }
+  }
+
+  // Функция регистрации пользователя
 
   return (
     <div className={styles.wrapper}>
@@ -31,7 +60,6 @@ export function AuthPage() {
                 placeholderText={'Логин'}
                 onValueChange={(login: string | number) => {
                   setLogin(login)
-                  console.log(login)
                 }}
               />
               <Input
@@ -40,16 +68,19 @@ export function AuthPage() {
                 placeholderText={'Пароль'}
                 onValueChange={(password: string | number) => {
                   setPassword(password)
-                  console.log(password)
                 }}
               />
             </div>
+
             <div className={styles.buttonBlock}>
-              <Button fontSize={18}>Войти</Button>
+              <Button fontSize={18} onClick={handleLogin}>
+                Войти
+              </Button>
               <Button fontSize={18} onClick={handleIsLoginMode} variant="transparent">
                 Зарегистрироваться
               </Button>
             </div>
+            {errorMessage ? <div>{errorMessage}</div> : null}
           </>
         ) : (
           <>
@@ -69,7 +100,6 @@ export function AuthPage() {
                 placeholderText={'Пароль'}
                 onValueChange={(password: string | number) => {
                   setPassword(password)
-                  console.log(password)
                 }}
               />
               <Input
@@ -78,7 +108,6 @@ export function AuthPage() {
                 placeholderText={'Повторите пароль'}
                 onValueChange={(repeatPassword: string | number) => {
                   setRepeatPassword(repeatPassword)
-                  console.log(repeatPassword)
                 }}
               />
             </div>
