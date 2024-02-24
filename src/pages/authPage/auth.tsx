@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { Button } from 'components/UI/Button/Button'
 import { Logo } from 'components/UI/Logo/Logo'
+import { useStore } from 'pages/authPage/AuthStore'
 
 export function AuthPage() {
   const [login, setLogin] = useState<string | number>('')
@@ -12,11 +13,12 @@ export function AuthPage() {
   const [isLoginMode, setIsLoginMode] = useState<boolean>(true)
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false)
 
   const handleIsLoginMode = () => {
     setIsLoginMode(false)
   }
+
+  const toggleShow = useStore((state) => state.toggleShow)
 
   // Функция входа пользователя
   const handleLogin = (e: { preventDefault: () => void }) => {
@@ -37,8 +39,8 @@ export function AuthPage() {
       default: {
         localStorage.setItem('login', JSON.stringify(login))
         localStorage.setItem('password', JSON.stringify(password))
-        setIsAuthenticated(!isAuthenticated)
         navigate('/profile', { replace: true })
+        toggleShow()
       }
     }
   }

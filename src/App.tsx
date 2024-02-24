@@ -1,5 +1,5 @@
 import { Providers } from 'providers/Providers.tsx'
-import { AppRoutes } from 'routes.tsx'
+import { AppRoutes } from 'routes/routes'
 import './App.scss'
 
 export const App = () => (
