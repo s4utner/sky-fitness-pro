@@ -7,5 +7,5 @@ type MyStore = {
 
 export const useStore = create<MyStore>((set) => ({
   isAuthenticated: false,
-  toggleShow: () => set((state) => ({ isAuthenticated: !state.isAuthenticated })),
+  toggleShow: () => set({ isAuthenticated: true }),
 }))

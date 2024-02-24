@@ -6,16 +6,15 @@ import { useStore } from 'pages/authPage/AuthStore'
 
 export function AppRoutes() {
   const isAuthenticated = useStore((state) => state.isAuthenticated)
+  console.log(isAuthenticated)
   return (
     <Routes>
-      <Route element={<ProtectedRoute show={isAuthenticated} />}>
+      <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
       <Route path="/" element={<Main />} />
       <Route path="/auth" element={<AuthPage />} />
-
       <Route path="/courses/:name" element={<CoursePage />} />
-
       <Route path="/course" element={<Course />} />
     </Routes>
   )

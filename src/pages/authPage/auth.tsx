@@ -39,8 +39,8 @@ export function AuthPage() {
       default: {
         localStorage.setItem('login', JSON.stringify(login))
         localStorage.setItem('password', JSON.stringify(password))
-        navigate('/profile', { replace: true })
         toggleShow()
+        navigate('/profile', { replace: true })
       }
     }
   }
