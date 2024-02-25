@@ -22,7 +22,7 @@ export function AuthPage() {
   // Данные из Zustand
   const toggleShow = useStore((state) => state.toggleShow)
 
-  // Функция входа пользователя
+  // Функция входа пользователя и валидация
   const handleLogin = (e: { preventDefault: () => void }) => {
     e.preventDefault()
     switch (true) {
@@ -47,7 +47,7 @@ export function AuthPage() {
     }
   }
 
-  // Функция регистрации пользователя
+  // Функция регистрации пользователя и валидация
   const handleRegistration = (e: { preventDefault: () => void }) => {
     e.preventDefault()
     switch (true) {
