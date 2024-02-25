@@ -14,10 +14,12 @@ export function AuthPage() {
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
 
+  // Переклчение между логином и регистрацией и сбрасывание ошибки
   const handleIsLoginMode = () => {
     setIsLoginMode(false)
+    setErrorMessage('')
   }
-
+  // Данные из Zustand
   const toggleShow = useStore((state) => state.toggleShow)
 
   // Функция входа пользователя
@@ -25,7 +27,7 @@ export function AuthPage() {
     e.preventDefault()
     switch (true) {
       case !login && !password: {
-        setErrorMessage('логин и пароль должны быть заполнены')
+        setErrorMessage('Все поля должны быть заполнены')
         return
       }
       case !login: {
@@ -40,12 +42,39 @@ export function AuthPage() {
         localStorage.setItem('login', JSON.stringify(login))
         localStorage.setItem('password', JSON.stringify(password))
         toggleShow()
-        navigate('/profile', { replace: true })
+        navigate('/profile', { replace: false })
       }
     }
   }
 
   // Функция регистрации пользователя
+  const handleRegistration = (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    switch (true) {
+      case !login && !password: {
+        setErrorMessage('Все поля должны быть заполнены')
+        break
+      }
+      case !login: {
+        setErrorMessage('Введите логин')
+        break
+      }
+      case !password: {
+        setErrorMessage('Введите пароль')
+        break
+      }
+      case password !== repeatPassword: {
+        setErrorMessage('пароли должны совпадать!')
+        break
+      }
+      default: {
+        localStorage.setItem('login', JSON.stringify(login))
+        localStorage.setItem('password', JSON.stringify(password))
+        toggleShow()
+        navigate('/profile', { replace: false })
+      }
+    }
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -82,7 +111,7 @@ export function AuthPage() {
                 Зарегистрироваться
               </Button>
             </div>
-            {errorMessage ? <div>{errorMessage}</div> : null}
+            {errorMessage ? <div className={styles.errorInput}>{errorMessage}</div> : null}
           </>
         ) : (
           <>
@@ -113,7 +142,12 @@ export function AuthPage() {
                 }}
               />
             </div>
-            <Button fontSize={18}>Войти</Button>
+            <div className={styles.buttonBlock}>
+              <Button fontSize={18} onClick={handleRegistration}>
+                Войти
+              </Button>
+            </div>
+            {errorMessage ? <div className={styles.errorInput}>{errorMessage}</div> : null}
           </>
         )}
       </div>
