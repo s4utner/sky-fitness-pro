@@ -1,4 +1,4 @@
-import styles from './Auth.module.scss'
+import styles from './AuthPage.module.scss'
 import { Input } from 'components/UI/Input/Input'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
