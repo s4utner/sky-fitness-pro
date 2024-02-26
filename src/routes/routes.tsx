@@ -15,7 +15,7 @@ export function AppRoutes() {
       <Route path="/" element={<Main />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/courses/:name" element={<CoursePage />} />
-      <Route path="/workout" element={<WorkoutPage />} />
+      <Route path="/workout/:id" element={<WorkoutPage />} />
     </Routes>
   )
 }
