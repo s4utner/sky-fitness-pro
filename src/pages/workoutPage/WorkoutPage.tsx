@@ -2,9 +2,9 @@ import { Header, Button, ProgressBar, ProgressModal } from 'components'
 import videoPoster from './img/videoPoster.png'
 import videoButtonPlay from './img/videoButtonPlay.svg'
 import { useState } from 'react'
-import styles from './Course.module.scss'
+import styles from './WorkoutPage.module.scss'
 
-export const Course = () => {
+export const WorkoutPage = () => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   const handleOpenModal = () => {
