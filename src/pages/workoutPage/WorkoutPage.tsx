@@ -1,13 +1,14 @@
 import { Header, Button, ProgressBar, ProgressModal } from 'components'
 import { useWorkoutQuery } from 'hooks'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import videoPoster from './img/videoPoster.png'
 import videoButtonPlay from './img/videoButtonPlay.svg'
 import styles from './WorkoutPage.module.scss'
 
 export const WorkoutPage = () => {
-  const { id } = useParams()
+  // const { id } = useParams()
+  const id = '3yvozj'
 
   if (!id) {
     return
