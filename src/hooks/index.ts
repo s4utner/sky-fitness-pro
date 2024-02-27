@@ -1,7 +1,3 @@
 export { useGetAll } from './useGetAll'
-export { useLoginQuery } from './useLoginQuery'
-export { useUsersQuery } from './useUsersQuery'
 export { useCourseQuery } from './useCourseQuery'
-export { useCoursesQuery } from './useCoursesQuery'
 export { useWorkoutQuery } from './useWorkoutQuery'
-export { useWorkoutsQuery } from './useWorkoutsQuery'

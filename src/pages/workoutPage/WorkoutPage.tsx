@@ -43,7 +43,7 @@ export const WorkoutPage = () => {
                 data.exercises.map((exercise) => {
                   return (
                     <li key={data._id} className={styles.tasksListItem}>
-                      {exercise.name} ({exercise.quantity} повторений)
+                      {exercise.name}
                     </li>
                   )
                 })}
@@ -59,8 +59,8 @@ export const WorkoutPage = () => {
                 data.exercises.map((exercise) => {
                   return (
                     <div key={data._id} className={styles.progressItem}>
-                      <p className={styles.progressItemText}>{exercise.name}</p>
-                      <ProgressBar currentValue={0} />
+                      <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
+                      <ProgressBar currentValue={45} />
                     </div>
                   )
                 })}
