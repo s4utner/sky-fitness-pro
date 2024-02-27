@@ -1,3 +1,4 @@
+export { useGetAll } from './useGetAll'
 export { useLoginQuery } from './useLoginQuery'
 export { useUsersQuery } from './useUsersQuery'
 export { useCourseQuery } from './useCourseQuery'
