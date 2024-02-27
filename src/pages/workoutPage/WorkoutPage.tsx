@@ -13,15 +13,7 @@ export const WorkoutPage = () => {
     return
   }
 
-  const { data, isLoading, isError, isSuccess } = useWorkoutQuery(id)
-
-  if (isLoading) {
-    return <div>Is Loading...</div>
-  }
-
-  if (isError) {
-    console.log('Произошла ошибка, повторите позднее')
-  }
+  const { data, isSuccess } = useWorkoutQuery(id)
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
