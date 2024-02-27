@@ -66,14 +66,10 @@ export const getAllWorkouts = async () => {
   }
 }
 
-export const getWorkoutById = async (id: string) => {
-  try {
-    const response = await axios.get(`${baseUrl}workouts/${id}.json`)
-    console.log(response.data)
-    return response.data
-  } catch (error) {
-    return error
-  }
+export const getWorkoutById = async (id: string): Promise<IWorkout> => {
+  const response = await axios.get(`${baseUrl}workouts/${id}.json`)
+  console.log(response.data)
+  return response.data
 }
 
 export const getAllUsers = async () => {
