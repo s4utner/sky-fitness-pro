@@ -53,3 +53,15 @@ export const getAllUsers = async () => {
     return error
   }
 }
+
+export const fetchLogin = async ({ login, password }: { login: string | number; password: string | number }) => {
+  try {
+    const { data: user } = await axios.get(`${baseUrl}users/${login}.json`)
+    if (user.password !== password) throw new Error('Неправильный пароль')
+    return user
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new TypeError(error.message)
+    }
+  }
+}
