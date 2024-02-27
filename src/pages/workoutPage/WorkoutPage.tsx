@@ -9,9 +9,11 @@ import styles from './WorkoutPage.module.scss'
 export const WorkoutPage = () => {
   const { id } = useParams()
 
-  getWorkoutById(id).then((workout) => {
-    console.log(workout)
-  })
+  if (id) {
+    getWorkoutById(id).then((workout) => {
+      console.log(workout)
+    })
+  }
 
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
