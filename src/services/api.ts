@@ -1,94 +1,123 @@
-// Пример использования
-// import { useQuery } from "@tanstack/react-query";
+// Import the functions you need from the SDKs you need
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  updateEmail,
+  updatePassword,
+} from 'firebase/auth'
+import { initializeApp } from 'firebase/app'
+import { child, get, getDatabase, ref, update } from 'firebase/database'
 
-// const {data, isLoading, isError, isSuccess} = useQuery({queryFn: () => getAllCourses(), queryKey: ['courses', 'all']})
-import axios from 'axios'
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-interface ICourse {
-  description: string
-  directions: string[]
-  fitting: string[]
-  nameEN: string
-  nameRU: string
-  order: number
-  workouts: string[]
-  _id: string
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: 'AIzaSyBvuF-A_PIndBSDWJZUWSMJs86Ly-5tOyM',
+  authDomain: 'sky-fitness-pro-2f260.firebaseapp.com',
+  databaseURL: 'https://sky-fitness-pro-2f260-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId: 'sky-fitness-pro-2f260',
+  storageBucket: 'sky-fitness-pro-2f260.appspot.com',
+  messagingSenderId: '580124679540',
+  appId: '1:580124679540:web:13546acbb3a83ee1ed2021',
 }
 
-interface ICourses {
-  [index: string]: ICourse
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
+type EmailPassword = Record<string, string>
+
+//
+// !!!! Константу нужно потом перенести
+//
+
+type UserProgress = Record<string, {[index: string]: number[]}>
+
+const DEFAULT_USER_PROGRESS: UserProgress = {
+  q02a6i: {
+    '17oz5f': [0, 0, 0],
+    pyvaec: [0, 0, 0],
+    xlpkqy: [0, 0, 0],
+  },
 }
 
-interface IWorkout {
-  exercises: { name: string; quantity: number }[]
-  name: string
-  video: string
-  _id: string
-}
+export const initUserProgress = async () => {
+  const user = getAuth(app).currentUser
+  if (user) {
+    const { uid } = user
+    const db = ref(getDatabase(app))
 
-interface IWorkouts {
-  [index: string]: IWorkout
-}
-
-const baseUrl = 'https://sky-fitness-pro-2f260-default-rtdb.asia-southeast1.firebasedatabase.app/'
-
-export const getAll = async (entity: 'courses' | 'workouts'): Promise<ICourses | IWorkouts> => {
-  const response = await axios.get(`${baseUrl}${entity}.json`)
-  return response.data
-}
-
-export const getAllCourses = async () => {
-  try {
-    const response = await axios.get(`${baseUrl}courses.json`)
-    return response.data
-  } catch (error) {
-    return error
+    return update(child(db, 'users'), {
+      [uid]: { ...DEFAULT_USER_PROGRESS, _id: uid },
+    })
   }
 }
 
-export const getCourseById = async (id: string) => {
-  try {
-    const response = await axios.get(`${baseUrl}courses/${id}.json`)
-    console.log(response.data)
-    return response.data
-  } catch (error) {
-    return error
+export const loginUser = async ({ email, password }: EmailPassword) => {
+  const response = await signInWithEmailAndPassword(getAuth(app), email, password)
+  return { ...response.user, password }
+}
+
+export const createNewUser = async ({ email, password }: EmailPassword) => {
+  await createUserWithEmailAndPassword(getAuth(app), email, password)
+  const newUser = await loginUser({ email, password })
+  initUserProgress()
+
+  return newUser
+}
+
+export const logoutUser = async () => {
+  await signOut(getAuth(app))
+  return true
+}
+
+export const updateLogin = async ({ email }: EmailPassword) => {
+  const user = getAuth(app).currentUser
+
+  if (user) return updateEmail(user, email)
+}
+
+export const updateUserPassword = async ({ password }: EmailPassword) => {
+  const user = getAuth(app).currentUser
+
+  if (user) return updatePassword(user, password)
+}
+
+export const updateUserProgress = async ({
+  courseId,
+  workoutId,
+  progressArray,
+}: {
+  courseId: string
+  workoutId: string
+  progressArray: number[]
+}) => {
+  const user = getAuth(app).currentUser
+  const db = ref(getDatabase(app))
+
+  if (user) {
+    const { uid } = user
+
+    const exercisePath = `users/${uid}/${courseId}`
+
+    return update(child(db, exercisePath), {
+      [workoutId]: progressArray,
+    })
   }
 }
 
-export const getAllWorkouts = async () => {
-  try {
-    const response = await axios.get(`${baseUrl}workouts.json`)
-    console.log(response.data)
-    return response.data
-  } catch (error) {
-    return error
+export const getDBChild = async <T>(childPath: string) => {
+  const db = ref(getDatabase(app))
+  const requiredChild = await get(child(db, childPath))
+
+  if (requiredChild.exists()) {
+    return requiredChild.val() as T
   }
+  console.warn('Data was no found')
 }
 
-export const getWorkoutById = async (id: string): Promise<IWorkout> => {
-  const response = await axios.get(`${baseUrl}workouts/${id}.json`)
-  console.log(response.data)
-  return response.data
-}
+// Интиерфейсы пока оставил, вдруг пригодятся
 
-export const getAllUsers = async () => {
-  try {
-    const response = await axios.get(`${baseUrl}users.json`)
-    return response.data
-  } catch (error) {
-    return error
-  }
-}
 
-export const fetchLogin = async ({ login, password }: { login: string | number; password: string | number }) => {
-  try {
-    const { data: user } = await axios.get(`${baseUrl}users/${login}.json`)
-    if (user.password !== password) throw new Error('Неправильный пароль')
-    return user
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new TypeError(error.message)
-    }
-  }
-}
+// const baseUrl = 'https://sky-fitness-pro-2f260-default-rtdb.asia-southeast1.firebasedatabase.app/'
