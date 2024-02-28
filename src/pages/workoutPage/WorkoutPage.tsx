@@ -58,12 +58,12 @@ export const WorkoutPage = () => {
             <p className={styles.heading}>Мой прогресс по тренировке 2:</p>
             <div className={styles.progressItems}>
               {isSuccess &&
-                data.exercises.map((exercise) => (
-                  <div key={data._id} className={styles.progressItem}>
-                    <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
-                    <ProgressBar currentValue={0} maxValue={exercise.quantity} />
-                  </div>
-                ))}
+                data.exercises.map((exercise) => {
+                    <div key={data._id} className={styles.progressItem}>
+                      <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
+                      <ProgressBar currentValue={0} maxValue={exercise.quantity} />
+                    </div>
+                })}
             </div>
           </div>
         </div>
