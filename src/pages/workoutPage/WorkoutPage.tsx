@@ -2,7 +2,7 @@ import { Header, Button, ProgressBar, ProgressModal } from 'components'
 import { useWorkoutQuery } from 'hooks'
 import { useState } from 'react'
 // import { useParams } from 'react-router-dom'
-import videoPoster from './img/videoPoster.png'
+import { createValidVideoUrl } from 'helpers/helpers'
 import videoButtonPlay from './img/videoButtonPlay.svg'
 import styles from './WorkoutPage.module.scss'
 
@@ -34,7 +34,12 @@ export const WorkoutPage = () => {
         <p className={styles.heading}>{isSuccess && data.name}</p>
         <div className={styles.videoWrapper}>
           <img className={styles.videoButton} src={videoButtonPlay} />
-          <video className={styles.video} src={isSuccess ? data.video : ''} poster={videoPoster} />
+          <iframe
+            className={styles.video}
+            src={createValidVideoUrl(isSuccess ? data.video : '')}
+            frameBorder={0}
+            allowFullScreen
+          />
         </div>
         <div className={styles.description}>
           <div className={styles.tasks}>
@@ -61,7 +66,7 @@ export const WorkoutPage = () => {
                   return (
                     <div key={data._id} className={styles.progressItem}>
                       <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
-                      <ProgressBar currentValue={45} />
+                      <ProgressBar currentValue={0} maxValue={exercise.quantity} />
                     </div>
                   )
                 })}
