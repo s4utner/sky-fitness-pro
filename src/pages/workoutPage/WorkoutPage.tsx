@@ -46,13 +46,11 @@ export const WorkoutPage = () => {
             <p className={styles.heading}>Упражнения</p>
             <ul className={styles.tasksList}>
               {isSuccess &&
-                data.exercises.map((exercise) => {
-                  return (
-                    <li key={data._id} className={styles.tasksListItem}>
-                      {exercise.name}
-                    </li>
-                  )
-                })}
+                data.exercises.map((exercise) => (
+                  <li key={data._id} className={styles.tasksListItem}>
+                    {exercise.name}
+                  </li>
+                ))}
             </ul>
             <Button variant="base" fontSize={18} onClick={handleOpenModal}>
               Заполнить свой прогресс
@@ -63,12 +61,10 @@ export const WorkoutPage = () => {
             <div className={styles.progressItems}>
               {isSuccess &&
                 data.exercises.map((exercise) => {
-                  return (
                     <div key={data._id} className={styles.progressItem}>
                       <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
                       <ProgressBar currentValue={0} maxValue={exercise.quantity} />
                     </div>
-                  )
                 })}
             </div>
           </div>
