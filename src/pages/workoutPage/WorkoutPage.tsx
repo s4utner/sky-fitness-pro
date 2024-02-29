@@ -7,16 +7,14 @@ import videoButtonPlay from './img/videoButtonPlay.svg'
 import styles from './WorkoutPage.module.scss'
 
 export const WorkoutPage = () => {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   // const { id } = useParams()
   const id = '3yvozj'
 
-  if (!id) {
+  const { data, isSuccess } = useWorkoutQuery(id)
+  if (!data) {
     return
   }
-
-  const { data, isSuccess } = useWorkoutQuery(id)
-
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
   const handleOpenModal = () => {
     setIsModalVisible(true)
