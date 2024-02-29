@@ -11,8 +11,13 @@ export function AuthPage() {
   const [password, setPassword] = useState<string | number>('asdfasdf')
   const [repeatPassword, setRepeatPassword] = useState<string | number>('')
   const [isLoginMode, setIsLoginMode] = useState<boolean>(true)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
   const navigate = useNavigate()
+
+  interface login {
+    value: string | number
+    placeholder: string
+  }
 
   const setUser = useStore((state) => state.setUser)
 
@@ -21,24 +26,45 @@ export function AuthPage() {
     setIsLoginMode(false)
   }
 
+  // функция отправки ошибки
+  const handleErrorMessage = (message: string) => {
+    setErrorMessage(message)
+  }
+
+  //Валидация регуярными выражениями
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const validateEmail = (login: string): boolean => {
+    const emailRegex = /^[\w%+.-]+@[\d.A-Za-z-]+\.[A-Za-z]{2,}$/
+    return login.length >= 6 && login.length <= 64 && emailRegex.test(login)
+  }
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault()
+    if (validateEmail(login) && login.length >= 6 && password.length >= 6 && password === repeatPassword) {
+      setErrorMessage('Вы в системе')
+    } else {
+      setErrorMessage('Неправильный email')
+    }
+  }
   // Функция входа пользователя и валидация
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     switch (true) {
       case !login && !password: {
-        setErrorMessage('Все поля должны быть заполнены')
+        handleErrorMessage('Все поля должны быть заполнены')
         return
       }
       case !login: {
-        setErrorMessage('Введите логин')
+        handleErrorMessage('Введите логин')
         return
       }
       case !password: {
-        setErrorMessage('Введите пароль')
+        handleErrorMessage('Введите пароль')
         return
       }
       default: {
         try {
+          handleSubmit
           const response = await loginUser({ email: String(login), password: String(password) })
           console.log(response, 'Это ответ на логин')
 
@@ -57,19 +83,19 @@ export function AuthPage() {
     e.preventDefault()
     switch (true) {
       case !login && !password: {
-        setErrorMessage('Все поля должны быть заполнены')
+        handleErrorMessage('Все поля должны быть заполнены')
         break
       }
       case !login: {
-        setErrorMessage('Введите логин')
+        handleErrorMessage('Введите логин')
         break
       }
       case !password: {
-        setErrorMessage('Введите пароль')
+        handleErrorMessage('Введите пароль')
         break
       }
       case password !== repeatPassword: {
-        setErrorMessage('пароли должны совпадать!')
+        handleErrorMessage('пароли должны совпадать!')
         break
       }
       default: {
@@ -92,7 +118,7 @@ export function AuthPage() {
   }, [login, password, repeatPassword, isLoginMode])
 
   return (
-    <div className={styles.wrapper}>
+    <form onSubmit={handleSubmit} className={styles.wrapper}>
       <div className={styles.AuthForm}>
         <Logo />
         {isLoginMode ? (
@@ -123,6 +149,7 @@ export function AuthPage() {
               <Button fontSize={18} onClick={handleIsLoginMode} variant="transparent">
                 Зарегистрироваться
               </Button>
+              <button type="submit">Submit</button>
             </div>
             {errorMessage && <div className={styles.errorInput}>{errorMessage}</div>}
           </>
@@ -135,7 +162,6 @@ export function AuthPage() {
                 placeholderText={'Логин'}
                 onValueChange={(login) => {
                   setLogin(login)
-                  console.log(login)
                 }}
               />
               <Input
@@ -157,13 +183,13 @@ export function AuthPage() {
             </div>
             <div className={styles.buttonBlock}>
               <Button fontSize={18} onClick={handleRegistration}>
-                Войти
+                Зарегистрироваться
               </Button>
             </div>
             {errorMessage && <div className={styles.errorInput}>{errorMessage}</div>}
           </>
         )}
       </div>
-    </div>
+    </form>
   )
 }
