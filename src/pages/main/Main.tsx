@@ -21,11 +21,11 @@ export const Main = () => {
   if (!data) return
 
   const imagesByIndex: Record<string, string> = {
-    '6i67sm': stepImg,
-    ab1c3f: yogaImg,
-    kfpq8e: stratchingImg,
-    q02a6i: bodyflexImg,
-    ypox9r: danceImg,
+    stepairobic: stepImg,
+    yoga: yogaImg,
+    stretching: stratchingImg,
+    bodyflex: bodyflexImg,
+    dancefitness: danceImg,
   }
 
   const coursesArray = Object.values(data)
