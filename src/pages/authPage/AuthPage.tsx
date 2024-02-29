@@ -7,16 +7,16 @@ import { createNewUser, loginUser } from 'services/api'
 
 export function AuthPage() {
   // юзер: JohnDow@mail.mail пароль: asdfasdf
-  const [login, setLogin] = useState<string | number>('JohnDow@mail.mail')
-  const [password, setPassword] = useState<string | number>('asdfasdf')
-  const [repeatPassword, setRepeatPassword] = useState<string | number>('')
-  const [isLoginMode, setIsLoginMode] = useState<boolean>(true)
+  const [login, setLogin] = useState('JohnDow@mail.mail')
+  const [password, setPassword] = useState('asdfasdf')
+  const [repeatPassword, setRepeatPassword] = useState('')
+  const [isLoginMode, setIsLoginMode] = useState(true)
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
 
   const setUser = useStore((state) => state.setUser)
 
-  // Переклчение между логином и регистрацией и сбрасывание ошибки
+  // Переключение между логином и регистрацией и сбрасывание ошибки
   const handleIsLoginMode = () => {
     setIsLoginMode(false)
   }
@@ -39,7 +39,7 @@ export function AuthPage() {
       }
       default: {
         try {
-          const response = await loginUser({ email: String(login), password: String(password) })
+          const response = await loginUser({ email: login, password: password })
           console.log(response, 'Это ответ на логин')
 
           setUser(response)
@@ -102,16 +102,16 @@ export function AuthPage() {
                 inputType={'text'}
                 value={login}
                 placeholderText={'Логин'}
-                onValueChange={(login) => {
-                  setLogin(login)
+                onValueChange={(value) => {
+                  setLogin(value as string)
                 }}
               />
               <Input
                 inputType={'password'}
                 value={password}
                 placeholderText={'Пароль'}
-                onValueChange={(password) => {
-                  setPassword(password)
+                onValueChange={(value) => {
+                  setPassword(value as string)
                 }}
               />
             </div>
@@ -133,8 +133,8 @@ export function AuthPage() {
                 inputType={'text'}
                 value={login}
                 placeholderText={'Логин'}
-                onValueChange={(login) => {
-                  setLogin(login)
+                onValueChange={(password) => {
+                  setLogin(password as string)
                   console.log(login)
                 }}
               />
@@ -142,16 +142,16 @@ export function AuthPage() {
                 inputType={'password'}
                 value={password}
                 placeholderText={'Пароль'}
-                onValueChange={(password) => {
-                  setPassword(password)
+                onValueChange={(value) => {
+                  setPassword(value as string)
                 }}
               />
               <Input
                 inputType={'password'}
                 value={repeatPassword}
                 placeholderText={'Повторите пароль'}
-                onValueChange={(repeatPassword) => {
-                  setRepeatPassword(repeatPassword)
+                onValueChange={(value) => {
+                  setRepeatPassword(value as string)
                 }}
               />
             </div>
