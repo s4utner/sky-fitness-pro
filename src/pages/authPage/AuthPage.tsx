@@ -40,7 +40,9 @@ export function AuthPage() {
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault()
-    if (validateEmail(login) && login.length >= 6 && password.length >= 6 && password === repeatPassword) {
+    const loginStr = String(login)
+    const passwordStr = String(password)
+    if (validateEmail(loginStr) && loginStr.length >= 6 && passwordStr.length >= 6 && password === repeatPassword) {
       setErrorMessage('Вы в системе')
     } else {
       setErrorMessage('Неправильный email')
@@ -100,6 +102,7 @@ export function AuthPage() {
       }
       default: {
         try {
+          handleSubmit
           const response = await createNewUser({ email: String(login), password: String(password) })
           console.log(response, 'Это ответ на логин')
 
