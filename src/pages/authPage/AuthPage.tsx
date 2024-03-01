@@ -4,8 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useStore } from 'store/AuthStore'
 import { createNewUser, loginUser } from 'services/api'
-import { validatePassword } from 'helpers/helpersFunction'
-import { validateEmail } from 'helpers//helpersFunction'
+import { validateEmail, validatePassword } from 'helpers/helpersFunction'
 
 export function AuthPage() {
   // юзер: JohnDow@mail.mail пароль: asdfasdf
@@ -33,8 +32,6 @@ export function AuthPage() {
     setErrorMessage(message)
   }
 
-  //Валидация регуярными выражениями
-
   // Функция входа пользователя и валидация
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -51,17 +48,17 @@ export function AuthPage() {
         handleErrorMessage('Введите пароль')
         return
       }
-      case !validateEmail(String(login)): {
+      case !validateEmail(login as string): {
         handleErrorMessage('Введите корректный email')
         return
       }
-      case !validatePassword(String(password)): {
+      case !validatePassword(login as string): {
         handleErrorMessage('Пароль должен содержать от 6 до 64 символов')
         return
       }
       default: {
         try {
-          const response = await loginUser({ email: String(login), password: String(password) })
+          const response = await loginUser({ email: login as string, password: password as string })
           console.log(response, 'Это ответ на логин')
 
           setUser(response)
@@ -94,17 +91,17 @@ export function AuthPage() {
         handleErrorMessage('пароли должны совпадать!')
         break
       }
-      case !validateEmail(String(login)): {
+      case !validateEmail(login as string): {
         handleErrorMessage('Введите корректный email')
         return
       }
-      case !validatePassword(String(password)): {
+      case !validatePassword(login as string): {
         handleErrorMessage('Пароль должен содержать от 6 до 64 символов')
         return
       }
       default: {
         try {
-          const response = await createNewUser({ email: String(login), password: String(password) })
+          const response = await createNewUser({ email: login as string, password: password as string })
           console.log(response, 'Это ответ на логин')
 
           setUser(response)
