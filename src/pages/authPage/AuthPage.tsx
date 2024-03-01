@@ -149,7 +149,6 @@ export function AuthPage() {
               <Button fontSize={18} onClick={handleIsLoginMode} variant="transparent">
                 Зарегистрироваться
               </Button>
-              <button type="submit">Submit</button>
             </div>
             {errorMessage && <div className={styles.errorInput}>{errorMessage}</div>}
           </>
