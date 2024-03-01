@@ -17,7 +17,7 @@ export const NotFoundPage = () => {
           <h1 className={styles.info}>
             404 <br /> <span className={styles.infoMessage}>Страница не обнаружена</span>
           </h1>
-          <Button children="На главную" onClick={onButtonClick} />
+          <Button children={'На главную'} onClick={onButtonClick} />
         </div>
       </div>
     </div>
