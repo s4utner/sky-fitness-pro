@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useStore } from 'store/AuthStore'
 import { createNewUser, loginUser } from 'services/api'
+import { validatePassword } from 'helpers/helpersFunction'
+import { validateEmail } from 'helpers//helpersFunction'
 
 export function AuthPage() {
   // юзер: JohnDow@mail.mail пароль: asdfasdf
@@ -32,22 +34,7 @@ export function AuthPage() {
   }
 
   //Валидация регуярными выражениями
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const validateEmail = (login: string): boolean => {
-    const emailRegex = /^[\w%+.-]+@[\d.A-Za-z-]+\.[A-Za-z]{2,}$/
-    return login.length >= 6 && login.length <= 64 && emailRegex.test(login)
-  }
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault()
-    const loginStr = String(login)
-    const passwordStr = String(password)
-    if (validateEmail(loginStr) && loginStr.length >= 6 && passwordStr.length >= 6 && password === repeatPassword) {
-      setErrorMessage('Вы в системе')
-    } else {
-      setErrorMessage('Неправильный email')
-    }
-  }
   // Функция входа пользователя и валидация
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
@@ -64,9 +51,16 @@ export function AuthPage() {
         handleErrorMessage('Введите пароль')
         return
       }
+      case !validateEmail(String(login)): {
+        handleErrorMessage('Введите корректный email')
+        return
+      }
+      case !validatePassword(String(password)): {
+        handleErrorMessage('Пароль должен содержать от 6 до 64 символов')
+        return
+      }
       default: {
         try {
-          handleSubmit
           const response = await loginUser({ email: String(login), password: String(password) })
           console.log(response, 'Это ответ на логин')
 
@@ -100,9 +94,16 @@ export function AuthPage() {
         handleErrorMessage('пароли должны совпадать!')
         break
       }
+      case !validateEmail(String(login)): {
+        handleErrorMessage('Введите корректный email')
+        return
+      }
+      case !validatePassword(String(password)): {
+        handleErrorMessage('Пароль должен содержать от 6 до 64 символов')
+        return
+      }
       default: {
         try {
-          handleSubmit
           const response = await createNewUser({ email: String(login), password: String(password) })
           console.log(response, 'Это ответ на логин')
 
@@ -121,7 +122,7 @@ export function AuthPage() {
   }, [login, password, repeatPassword, isLoginMode])
 
   return (
-    <form onSubmit={handleSubmit} className={styles.wrapper}>
+    <form className={styles.wrapper}>
       <div className={styles.AuthForm}>
         <Logo />
         {isLoginMode ? (
