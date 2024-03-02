@@ -46,7 +46,7 @@ export function AuthPage() {
         setErrorMessage('Введите корректный email')
         return
       }
-      case !validatePassword(login as string): {
+      case !validatePassword(password as string): {
         setErrorMessage('Пароль должен содержать от 6 до 64 символов')
         return
       }
@@ -90,7 +90,7 @@ export function AuthPage() {
         setErrorMessage('Введите корректный email')
         return
       }
-      case !validatePassword(login as string): {
+      case !validatePassword(password as string): {
         setErrorMessage('Пароль должен содержать от 6 до 64 символов')
         return
       }
