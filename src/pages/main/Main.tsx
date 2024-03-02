@@ -9,7 +9,6 @@ import bodyflexImg from 'assets/img/bodyflex.png'
 // --- Импорт изображений ---
 import { useNavigate } from 'react-router-dom'
 import { useAllCoursesQuery } from 'hooks'
-
 import style from './Main.module.scss'
 
 export const Main = () => {
