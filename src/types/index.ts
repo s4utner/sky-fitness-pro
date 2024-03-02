@@ -35,3 +35,5 @@ export interface IWorkout {
 export interface IWorkouts {
   [index: string]: IWorkout
 }
+
+export type CourseNamesEnum = 'Yoga' | 'StepAirobic' | 'Stretching' | 'BodyFlex' | 'DanceFitness'

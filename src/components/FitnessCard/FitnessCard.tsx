@@ -1,6 +1,6 @@
+import { Button } from 'components'
 import type { FC, PropsWithChildren } from 'react'
 import styles from './FitnessCard.module.scss'
-import { Button } from 'components'
 
 interface FitnessCardProps {
   variant?: 'main' | 'myProfile'

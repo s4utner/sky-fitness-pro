@@ -2,21 +2,19 @@ import { Header, Button, ProgressBar, ProgressModal } from 'components'
 import { useWorkoutQuery } from 'hooks'
 import { useState } from 'react'
 // import { useParams } from 'react-router-dom'
-import videoPoster from './img/videoPoster.png'
-import videoButtonPlay from './img/videoButtonPlay.svg'
+import { createValidVideoUrl } from 'helpers/helpers'
 import styles from './WorkoutPage.module.scss'
 
 export const WorkoutPage = () => {
+  const [isModalVisible, setIsModalVisible] = useState(false)
   // const { id } = useParams()
   const id = '3yvozj'
 
-  if (!id) {
-    return
-  }
-
   const { data, isSuccess } = useWorkoutQuery(id)
 
-  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  if (!data) {
+    return
+  }
 
   const handleOpenModal = () => {
     setIsModalVisible(true)
@@ -32,10 +30,12 @@ export const WorkoutPage = () => {
         <Header />
         <h1 className={styles.title}>Йога</h1>
         <p className={styles.heading}>{isSuccess && data.name}</p>
-        <div className={styles.videoWrapper}>
-          <img className={styles.videoButton} src={videoButtonPlay} />
-          <video className={styles.video} src={isSuccess ? data.video : ''} poster={videoPoster} />
-        </div>
+        <iframe
+          className={styles.video}
+          src={createValidVideoUrl(isSuccess ? data.video : '')}
+          frameBorder={0}
+          allowFullScreen
+        />
         <div className={styles.description}>
           <div className={styles.tasks}>
             <p className={styles.heading}>Упражнения</p>
@@ -58,7 +58,7 @@ export const WorkoutPage = () => {
                 data.exercises.map((exercise) => (
                   <div key={data._id} className={styles.progressItem}>
                     <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
-                    <ProgressBar currentValue={45} />
+                    <ProgressBar currentValue={0} maxValue={exercise.quantity} />
                   </div>
                 ))}
             </div>

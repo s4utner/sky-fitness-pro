@@ -22,7 +22,7 @@ export function AuthPage() {
 
   const setUser = useStore((state) => state.setUser)
 
-  // Переклчение между логином и регистрацией и сбрасывание ошибки
+  // Переключение между логином и регистрацией и сбрасывание ошибки
   const handleIsLoginMode = () => {
     setIsLoginMode(false)
   }
@@ -52,7 +52,9 @@ export function AuthPage() {
       }
       default: {
         try {
+
           const response = await loginUser({ email: login as string, password: password as string })
+
           console.log(response, 'Это ответ на логин')
 
           setUser(response)
@@ -131,8 +133,9 @@ export function AuthPage() {
                 inputType={'password'}
                 value={password}
                 placeholderText={'Пароль'}
-                onValueChange={(password) => {
-                  setPassword(password as string)
+                onValueChange={(value) => {
+                  setPassword(value as string)
+
                 }}
               />
             </div>
@@ -154,24 +157,28 @@ export function AuthPage() {
                 inputType={'text'}
                 value={login}
                 placeholderText={'Логин'}
-                onValueChange={(login) => {
-                  setLogin(login as string)
-                }}
+
+                onValueChange={(password) => {
+                  setLogin(password as string)
+               sole.log(login)
+                }}   con
               />
               <Input
                 inputType={'password'}
                 value={password}
                 placeholderText={'Пароль'}
-                onValueChange={(password) => {
-                  setPassword(password as string)
+                onValueChange={(value) => {
+                  setPassword(value as string)
+
                 }}
               />
               <Input
                 inputType={'password'}
                 value={repeatPassword}
                 placeholderText={'Повторите пароль'}
-                onValueChange={(repeatPassword) => {
-                  setRepeatPassword(repeatPassword as string)
+                onValueChange={(value) => {
+                  setRepeatPassword(value as string)
+
                 }}
               />
             </div>
