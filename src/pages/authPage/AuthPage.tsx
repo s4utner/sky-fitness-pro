@@ -8,11 +8,11 @@ import { validateEmail, validatePassword } from 'helpers/helpersFunction'
 
 export function AuthPage() {
   // юзер: JohnDow@mail.mail пароль: asdfasdf
-  const [login, setLogin] = useState<string | number>('JohnDow@mail.mail')
-  const [password, setPassword] = useState<string | number>('asdfasdf')
-  const [repeatPassword, setRepeatPassword] = useState<string | number>('')
-  const [isLoginMode, setIsLoginMode] = useState<boolean>(true)
-  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [login, setLogin] = useState('JohnDow@mail.mail')
+  const [password, setPassword] = useState('asdfasdf')
+  const [repeatPassword, setRepeatPassword] = useState('')
+  const [isLoginMode, setIsLoginMode] = useState(true)
+  const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
 
   interface login {
@@ -26,34 +26,28 @@ export function AuthPage() {
   const handleIsLoginMode = () => {
     setIsLoginMode(false)
   }
-
-  // функция отправки ошибки
-  const handleErrorMessage = (message: string) => {
-    setErrorMessage(message)
-  }
-
   // Функция входа пользователя и валидация
   const handleLogin = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     switch (true) {
       case !login && !password: {
-        handleErrorMessage('Все поля должны быть заполнены')
+        setErrorMessage('Все поля должны быть заполнены')
         return
       }
       case !login: {
-        handleErrorMessage('Введите логин')
+        setErrorMessage('Введите логин')
         return
       }
       case !password: {
-        handleErrorMessage('Введите пароль')
+        setErrorMessage('Введите пароль')
         return
       }
       case !validateEmail(login as string): {
-        handleErrorMessage('Введите корректный email')
+        setErrorMessage('Введите корректный email')
         return
       }
       case !validatePassword(login as string): {
-        handleErrorMessage('Пароль должен содержать от 6 до 64 символов')
+        setErrorMessage('Пароль должен содержать от 6 до 64 символов')
         return
       }
       default: {
@@ -76,27 +70,27 @@ export function AuthPage() {
     e.preventDefault()
     switch (true) {
       case !login && !password: {
-        handleErrorMessage('Все поля должны быть заполнены')
+        setErrorMessage('Все поля должны быть заполнены')
         break
       }
       case !login: {
-        handleErrorMessage('Введите логин')
+        setErrorMessage('Введите логин')
         break
       }
       case !password: {
-        handleErrorMessage('Введите пароль')
+        setErrorMessage('Введите пароль')
         break
       }
       case password !== repeatPassword: {
-        handleErrorMessage('пароли должны совпадать!')
+        setErrorMessage('пароли должны совпадать!')
         break
       }
       case !validateEmail(login as string): {
-        handleErrorMessage('Введите корректный email')
+        setErrorMessage('Введите корректный email')
         return
       }
       case !validatePassword(login as string): {
-        handleErrorMessage('Пароль должен содержать от 6 до 64 символов')
+        setErrorMessage('Пароль должен содержать от 6 до 64 символов')
         return
       }
       default: {
@@ -130,7 +124,7 @@ export function AuthPage() {
                 value={login}
                 placeholderText={'Логин'}
                 onValueChange={(login) => {
-                  setLogin(login)
+                  setLogin(login as string)
                 }}
               />
               <Input
@@ -138,7 +132,7 @@ export function AuthPage() {
                 value={password}
                 placeholderText={'Пароль'}
                 onValueChange={(password) => {
-                  setPassword(password)
+                  setPassword(password as string)
                 }}
               />
             </div>
@@ -161,7 +155,7 @@ export function AuthPage() {
                 value={login}
                 placeholderText={'Логин'}
                 onValueChange={(login) => {
-                  setLogin(login)
+                  setLogin(login as string)
                 }}
               />
               <Input
@@ -169,7 +163,7 @@ export function AuthPage() {
                 value={password}
                 placeholderText={'Пароль'}
                 onValueChange={(password) => {
-                  setPassword(password)
+                  setPassword(password as string)
                 }}
               />
               <Input
@@ -177,7 +171,7 @@ export function AuthPage() {
                 value={repeatPassword}
                 placeholderText={'Повторите пароль'}
                 onValueChange={(repeatPassword) => {
-                  setRepeatPassword(repeatPassword)
+                  setRepeatPassword(repeatPassword as string)
                 }}
               />
             </div>
