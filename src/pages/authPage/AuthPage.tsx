@@ -52,7 +52,6 @@ export function AuthPage() {
       }
       default: {
         try {
-
           const response = await loginUser({ email: login as string, password: password as string })
 
           console.log(response, 'Это ответ на логин')
@@ -135,7 +134,6 @@ export function AuthPage() {
                 placeholderText={'Пароль'}
                 onValueChange={(value) => {
                   setPassword(value as string)
-
                 }}
               />
             </div>
@@ -157,11 +155,9 @@ export function AuthPage() {
                 inputType={'text'}
                 value={login}
                 placeholderText={'Логин'}
-
-                onValueChange={(password) => {
-                  setLogin(password as string)
-               sole.log(login)
-                }}   con
+                onValueChange={(login) => {
+                  setLogin(login as string)
+                }}
               />
               <Input
                 inputType={'password'}
@@ -169,7 +165,6 @@ export function AuthPage() {
                 placeholderText={'Пароль'}
                 onValueChange={(value) => {
                   setPassword(value as string)
-
                 }}
               />
               <Input
@@ -178,7 +173,6 @@ export function AuthPage() {
                 placeholderText={'Повторите пароль'}
                 onValueChange={(value) => {
                   setRepeatPassword(value as string)
-
                 }}
               />
             </div>
