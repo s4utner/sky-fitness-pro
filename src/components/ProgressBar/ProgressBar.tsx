@@ -15,8 +15,14 @@ export const ProgressBar: FC<ProgressBarProps> = ({ maxValue = 100, currentValue
 
   return (
     <div className={`${styles.container} ${containerVariantClass}`}>
-      <div className={`${styles.filler} ${fillerVariantClass}`} style={{ width: `${currentProgress}%` }}>
-        {currentProgress >= 25 && <span className={styles.leftProgressValue}>{`${currentProgress}%`}</span>}
+      <div
+        className={`${styles.filler} ${fillerVariantClass}`}
+        style={currentProgress < 100 ? { width: `${currentProgress}%` } : { width: `100%` }}
+      >
+        {currentProgress >= 25 && currentProgress < 100 && (
+          <span className={styles.leftProgressValue}>{`${currentProgress}%`}</span>
+        )}
+        {currentProgress >= 100 && <span className={styles.leftProgressValue}>{`100%`}</span>}
       </div>
       {currentProgress < 25 && (
         <span

@@ -15,7 +15,7 @@ export function AppRoutes() {
       <Route path="/" element={<Main />} />
       <Route path="/auth" element={<AuthPage />} />
       <Route path="/courses/:name" element={<CoursePage />} />
-      <Route path="/workouts/:id" element={<WorkoutPage />} />
+      <Route path="/workouts/:course/:id" element={<WorkoutPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
