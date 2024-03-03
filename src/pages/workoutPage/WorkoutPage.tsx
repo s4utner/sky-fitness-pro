@@ -1,5 +1,5 @@
 import { Header, Button, ProgressBar, ProgressModal } from 'components'
-import { useWorkoutQuery } from 'hooks'
+import { useWorkoutQuery, useUserStateQuery } from 'hooks'
 import { useState } from 'react'
 // import { useParams } from 'react-router-dom'
 import { createValidVideoUrl } from 'helpers/helpers'
@@ -10,11 +10,15 @@ export const WorkoutPage = () => {
   // const { id } = useParams()
   const id = '3yvozj'
 
-  const { data, isSuccess } = useWorkoutQuery(id)
+  const { data: userState } = useUserStateQuery()
+  const { data: workout, isSuccess } = useWorkoutQuery(id)
 
-  if (!data) {
+  if (!workout) {
     return
   }
+
+  const currentProgress = userState?.progress
+  console.log(currentProgress)
 
   const handleOpenModal = () => {
     setIsModalVisible(true)
@@ -29,10 +33,10 @@ export const WorkoutPage = () => {
       <div className={styles.content}>
         <Header />
         <h1 className={styles.title}>Йога</h1>
-        <p className={styles.heading}>{isSuccess && data.name}</p>
+        <p className={styles.heading}>{isSuccess && workout.name}</p>
         <iframe
           className={styles.video}
-          src={createValidVideoUrl(isSuccess ? data.video : '')}
+          src={createValidVideoUrl(isSuccess ? workout.video : '')}
           frameBorder={0}
           allowFullScreen
         />
@@ -41,8 +45,8 @@ export const WorkoutPage = () => {
             <p className={styles.heading}>Упражнения</p>
             <ul className={styles.tasksList}>
               {isSuccess &&
-                data.exercises.map((exercise) => (
-                  <li key={data._id} className={styles.tasksListItem}>
+                workout.exercises.map((exercise) => (
+                  <li key={workout._id} className={styles.tasksListItem}>
                     {exercise.name}
                   </li>
                 ))}
@@ -55,8 +59,8 @@ export const WorkoutPage = () => {
             <p className={styles.heading}>Мой прогресс по тренировке 2:</p>
             <div className={styles.progressItems}>
               {isSuccess &&
-                data.exercises.map((exercise) => (
-                  <div key={data._id} className={styles.progressItem}>
+                workout.exercises.map((exercise) => (
+                  <div key={workout._id} className={styles.progressItem}>
                     <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
                     <ProgressBar currentValue={0} maxValue={exercise.quantity} />
                   </div>
