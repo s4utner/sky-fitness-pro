@@ -1,14 +1,13 @@
 import { Header, Button, ProgressBar, ProgressModal } from 'components'
 import { useWorkoutQuery, useUserStateQuery } from 'hooks'
 import { useState } from 'react'
-// import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { createValidVideoUrl } from 'helpers/helpers'
 import styles from './WorkoutPage.module.scss'
 
 export const WorkoutPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  // const { id } = useParams()
-  const id = '3yvozj'
+  const { id } = useParams()
 
   const { data: userState } = useUserStateQuery()
   const { data: workout, isSuccess } = useWorkoutQuery(id)
