@@ -1,4 +1,5 @@
 // Import the functions you need from the SDKs you need
+import type { User } from 'firebase/auth'
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -8,10 +9,8 @@ import {
   updatePassword,
 } from 'firebase/auth'
 import { initializeApp } from 'firebase/app'
+import { DEFAULT_USER_STATE } from 'consts'
 import { child, get, getDatabase, ref, update } from 'firebase/database'
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -28,28 +27,17 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 type EmailPassword = Record<string, string>
 
-//
-// !!!! Константу нужно потом перенести
-//
+// Initialize Cloud Firestore and get a reference to the service
+const db = ref(getDatabase(app))
+const user = getAuth(app).currentUser
 
-type UserProgress = Record<string, {[index: string]: number[]}>
-
-const DEFAULT_USER_PROGRESS: UserProgress = {
-  q02a6i: {
-    '17oz5f': [0, 0, 0],
-    pyvaec: [0, 0, 0],
-    xlpkqy: [0, 0, 0],
-  },
-}
-
-export const initUserProgress = async () => {
-  const user = getAuth(app).currentUser
+export const initUserState = async () => {
   if (user) {
     const { uid } = user
     const db = ref(getDatabase(app))
 
     return update(child(db, 'users'), {
-      [uid]: { ...DEFAULT_USER_PROGRESS, _id: uid },
+      [uid]: { ...DEFAULT_USER_STATE, _id: uid },
     })
   }
 }
@@ -62,7 +50,7 @@ export const loginUser = async ({ email, password }: EmailPassword) => {
 export const createNewUser = async ({ email, password }: EmailPassword) => {
   await createUserWithEmailAndPassword(getAuth(app), email, password)
   const newUser = await loginUser({ email, password })
-  initUserProgress()
+  initUserState()
 
   return newUser
 }
@@ -73,14 +61,10 @@ export const logoutUser = async () => {
 }
 
 export const updateLogin = async ({ email }: EmailPassword) => {
-  const user = getAuth(app).currentUser
-
   if (user) return updateEmail(user, email)
 }
 
 export const updateUserPassword = async ({ password }: EmailPassword) => {
-  const user = getAuth(app).currentUser
-
   if (user) return updatePassword(user, password)
 }
 
@@ -93,9 +77,6 @@ export const updateUserProgress = async ({
   workoutId: string
   progressArray: number[]
 }) => {
-  const user = getAuth(app).currentUser
-  const db = ref(getDatabase(app))
-
   if (user) {
     const { uid } = user
 
@@ -108,16 +89,27 @@ export const updateUserProgress = async ({
 }
 
 export const getDBChild = async <T>(childPath: string) => {
-  const db = ref(getDatabase(app))
   const requiredChild = await get(child(db, childPath))
 
-  if (requiredChild.exists()) {
+  if (requiredChild.exists() && requiredChild.val() !== undefined) {
     return requiredChild.val() as T
   }
-  console.warn('Data was no found')
+  console.warn('Data was not found')
 }
 
-// Интиерфейсы пока оставил, вдруг пригодятся
+export const getUserState = async <T>() => {
+  const userFromLS: User = JSON.parse(localStorage.getItem('user-storage') as string).state.user
 
+  const user: User = getAuth(app).currentUser ?? userFromLS
+
+  const { uid } = user
+  const path = `users/${uid}`
+  const requiredChild = await get(child(db, path))
+
+  if (requiredChild.exists() && requiredChild.val() !== undefined) {
+    return requiredChild.val() as T
+  }
+  console.warn('Data was not found')
+}
 
 // const baseUrl = 'https://sky-fitness-pro-2f260-default-rtdb.asia-southeast1.firebasedatabase.app/'
