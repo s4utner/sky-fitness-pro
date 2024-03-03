@@ -12,10 +12,6 @@ export const WorkoutPage = () => {
   const { data: userState } = useUserStateQuery()
   const { data: workout, isSuccess } = useWorkoutQuery(id)
 
-  if (!workout) {
-    return
-  }
-
   const currentProgress = userState?.progress
   console.log(currentProgress)
 
@@ -27,7 +23,7 @@ export const WorkoutPage = () => {
     setIsModalVisible(false)
   }
 
-  return (
+  return workout ? (
     <div className={isModalVisible ? styles.modalContainer : styles.courseContainer}>
       <div className={styles.content}>
         <Header />
@@ -44,6 +40,7 @@ export const WorkoutPage = () => {
             <p className={styles.heading}>Упражнения</p>
             <ul className={styles.tasksList}>
               {isSuccess &&
+                workout.exercises &&
                 workout.exercises.map((exercise) => (
                   <li key={workout._id} className={styles.tasksListItem}>
                     {exercise.name}
@@ -58,6 +55,7 @@ export const WorkoutPage = () => {
             <p className={styles.heading}>Мой прогресс по тренировке 2:</p>
             <div className={styles.progressItems}>
               {isSuccess &&
+                workout.exercises &&
                 workout.exercises.map((exercise) => (
                   <div key={workout._id} className={styles.progressItem}>
                     <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
@@ -70,5 +68,5 @@ export const WorkoutPage = () => {
       </div>
       {isModalVisible && <ProgressModal closeModal={handleCloseModal} />}
     </div>
-  )
+  ) : null
 }
