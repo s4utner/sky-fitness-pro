@@ -35,36 +35,37 @@ export const WorkoutPage = () => {
           frameBorder={0}
           allowFullScreen
         />
-        <div className={styles.description}>
-          <div className={styles.tasks}>
-            <p className={styles.heading}>Упражнения</p>
-            <ul className={styles.tasksList}>
-              {isSuccess &&
-                workout.exercises &&
-                workout.exercises.map((exercise) => (
-                  <li key={workout._id} className={styles.tasksListItem}>
-                    {exercise.name}
-                  </li>
-                ))}
-            </ul>
-            <Button variant="base" fontSize={18} onClick={handleOpenModal}>
-              Заполнить свой прогресс
-            </Button>
-          </div>
-          <div className={styles.progress}>
-            <p className={styles.heading}>Мой прогресс по тренировке 2:</p>
-            <div className={styles.progressItems}>
-              {isSuccess &&
-                workout.exercises &&
-                workout.exercises.map((exercise) => (
-                  <div key={workout._id} className={styles.progressItem}>
-                    <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
-                    <ProgressBar currentValue={0} maxValue={exercise.quantity} />
-                  </div>
-                ))}
+        {workout.exercises && (
+          <div className={styles.description}>
+            <div className={styles.tasks}>
+              <p className={styles.heading}>Упражнения</p>
+              <ul className={styles.tasksList}>
+                {isSuccess &&
+                  workout.exercises &&
+                  workout.exercises.map((exercise) => (
+                    <li key={workout._id} className={styles.tasksListItem}>
+                      {exercise.name}
+                    </li>
+                  ))}
+              </ul>
+              <Button variant="base" fontSize={18} onClick={handleOpenModal}>
+                Заполнить свой прогресс
+              </Button>
+            </div>
+            <div className={styles.progress}>
+              <p className={styles.heading}>Мой прогресс по тренировке 2:</p>
+              <div className={styles.progressItems}>
+                {isSuccess &&
+                  workout.exercises.map((exercise) => (
+                    <div key={workout._id} className={styles.progressItem}>
+                      <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
+                      <ProgressBar currentValue={0} maxValue={exercise.quantity} />
+                    </div>
+                  ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
       {isModalVisible && <ProgressModal closeModal={handleCloseModal} />}
     </div>
