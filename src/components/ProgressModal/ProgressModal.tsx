@@ -37,23 +37,21 @@ export const ProgressModal: FC<ProgressModalProps> = ({ workout, closeModal }) =
               {workout.exercises.map((exercise, index) => (
                 <div key={'modal' + index} className={styles.responseBlock}>
                   <p className={styles.responseBlockText}>
-                    Сколько раз вы сделали {exercise.name.toLowerCase().split(' (')[0]}
+                    Сколько раз вы сделали {exercise.name.toLowerCase().split(' (')[0]}?
                   </p>
                   <Input
-                    inputType="number"
+                    inputType={"number"}
                     value={progressValue[index].value}
                     onValueChange={(inputValue) => {
                       setProgressValue(progressValue.map((el, i) => (i === index ? { value: inputValue } : el)))
                       console.log(progressValue)
                     }}
-                    placeholderText="Введите значение"
+                    placeholderText={"Введите значение"}
                   />
                 </div>
               ))}
             </div>
-            <Button fontSize={18} variant="base" onClick={handleSetIsResponseFinished}>
-              Отправить
-            </Button>
+            <Button fontSize={18} variant={'base'} children={'Отправить'} onClick={handleSetIsResponseFinished} />
           </>
         )}
       </div>
