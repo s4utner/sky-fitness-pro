@@ -14,7 +14,7 @@ export const WorkoutPage = () => {
   const { data: workout, isSuccess } = useWorkoutQuery(id)
 
   const courseName = courseFromBD?.nameRU
-  const workoutNumber = Number(courseFromBD?.workouts.indexOf(id)) + 1
+  const workoutNumber = (courseFromBD?.workouts.indexOf(id) as number) + 1
   const progressArray = userState ? userState.progress[course][id] : [false]
   const [, ...currentProgress] = progressArray
 
@@ -62,7 +62,7 @@ export const WorkoutPage = () => {
                   workout.exercises.map((exercise, index) => (
                     <div key={workout._id + exercise.name} className={styles.progressItem}>
                       <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
-                      <ProgressBar currentValue={Number(currentProgress[index])} maxValue={exercise.quantity} />
+                      <ProgressBar currentValue={currentProgress[index] as number} maxValue={exercise.quantity} />
                     </div>
                   ))}
               </div>
