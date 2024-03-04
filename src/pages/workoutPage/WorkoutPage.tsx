@@ -7,15 +7,18 @@ import styles from './WorkoutPage.module.scss'
 
 export const WorkoutPage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
-  const { id, course } = useParams()
+  const { id = '', course = '' } = useParams()
 
   const { data: userState } = useUserStateQuery()
   const { data: courseFromBD } = useCourseQuery(course)
   const { data: workout, isSuccess } = useWorkoutQuery(id)
 
   const courseName = courseFromBD?.nameRU
-  const workoutNumber = courseFromBD?.workouts.indexOf(id) + 1
-  const currentProgress = userState?.progress[course][id]
+  const workoutNumber = Number(courseFromBD?.workouts.indexOf(id)) + 1
+  const progressArray = userState && userState.progress[course][id]
+  const [, ...currentProgress] = progressArray
+
+  console.log(currentProgress)
 
   const handleOpenModal = () => {
     setIsModalVisible(true)
@@ -45,7 +48,7 @@ export const WorkoutPage = () => {
                 {isSuccess &&
                   workout.exercises &&
                   workout.exercises.map((exercise) => (
-                    <li key={workout._id} className={styles.tasksListItem}>
+                    <li key={workout._id + exercise.name} className={styles.tasksListItem}>
                       {exercise.name}
                     </li>
                   ))}
@@ -59,9 +62,9 @@ export const WorkoutPage = () => {
               <div className={styles.progressItems}>
                 {isSuccess &&
                   workout.exercises.map((exercise, index) => (
-                    <div key={workout._id} className={styles.progressItem}>
+                    <div key={workout._id + exercise.name} className={styles.progressItem}>
                       <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
-                      <ProgressBar currentValue={currentProgress[index + 1]} maxValue={exercise.quantity} />
+                      <ProgressBar currentValue={0} maxValue={exercise.quantity} />
                     </div>
                   ))}
               </div>
