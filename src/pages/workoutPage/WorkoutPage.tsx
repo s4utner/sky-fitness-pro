@@ -38,23 +38,34 @@ export const WorkoutPage = () => {
           frameBorder={0}
           allowFullScreen
         />
-        {workout.exercises && (
-          <div className={styles.description}>
-            <div className={styles.tasks}>
-              <p className={styles.heading}>Упражнения</p>
-              <ul className={styles.tasksList}>
-                {isSuccess &&
-                  workout.exercises &&
-                  workout.exercises.map((exercise) => (
-                    <li key={workout._id + exercise.name} className={styles.tasksListItem}>
-                      {exercise.name}
-                    </li>
-                  ))}
-              </ul>
-              <Button variant="base" fontSize={18} onClick={handleOpenModal}>
-                Заполнить свой прогресс
-              </Button>
-            </div>
+        <div className={styles.description}>
+          <div className={styles.tasks}>
+            {workout.exercises && (
+              <>
+                <p className={styles.heading}>Упражнения</p>
+                <ul className={styles.tasksList}>
+                  {isSuccess &&
+                    workout.exercises &&
+                    workout.exercises.map((exercise) => (
+                      <li key={workout._id + exercise.name} className={styles.tasksListItem}>
+                        {exercise.name}
+                      </li>
+                    ))}
+                </ul>
+              </>
+            )}
+            <Button
+              variant="base"
+              fontSize={18}
+              onClick={() => {
+                // При отстутствии упражнений при нажатии будем отправлять в БД информацию о завершении тренировки
+                workout.exercises ? handleOpenModal() : ''
+              }}
+            >
+              {workout.exercises ? 'Заполнить свой прогресс' : 'Завершить тренировку'}
+            </Button>
+          </div>
+          {workout.exercises && (
             <div className={styles.progress}>
               <p className={styles.heading}>Мой прогресс по тренировке {workoutNumber}:</p>
               <div className={styles.progressItems}>
@@ -67,10 +78,10 @@ export const WorkoutPage = () => {
                   ))}
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
-      {isModalVisible && <ProgressModal closeModal={handleCloseModal} />}
+      {isModalVisible && <ProgressModal workout={workout} closeModal={handleCloseModal} />}
     </div>
   ) : null
 }
