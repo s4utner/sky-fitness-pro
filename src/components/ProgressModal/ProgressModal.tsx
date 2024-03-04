@@ -1,7 +1,7 @@
-import { FC } from 'react'
+import type { FC } from 'react'
 import { Input, Button } from 'components'
 import { useState } from 'react'
-import { IWorkout } from 'types'
+import type { IWorkout } from 'types'
 import sticker from './img/sticker.png'
 import styles from './ProgressModal.module.scss'
 
@@ -11,8 +11,9 @@ interface ProgressModalProps {
 }
 
 export const ProgressModal: FC<ProgressModalProps> = ({ workout, closeModal }) => {
-  const [progressValue, setProgressValue] = useState<string | number>('')
-
+  const [progressValue, setProgressValue] = useState<{ value: number | string }[]>(
+    workout.exercises.map(() => ({ value: '' })),
+  )
   const [isResponseFinished, setIsResponseFinished] = useState<boolean>(false)
 
   const handleSetIsResponseFinished = () => {
@@ -33,21 +34,26 @@ export const ProgressModal: FC<ProgressModalProps> = ({ workout, closeModal }) =
           <>
             <p className={styles.title}>Мой прогресс</p>
             <div className={styles.responseBlockContainer}>
-              {workout.exercises.map((exercise) => (
-                <div key={workout._id} className={styles.responseBlock}>
+              {workout.exercises.map((exercise, index) => (
+                <div key={'modal' + index} className={styles.responseBlock}>
                   <p className={styles.responseBlockText}>
                     Сколько раз вы сделали {exercise.name.toLowerCase().split(' (')[0]}
                   </p>
                   <Input
                     inputType="number"
-                    value={progressValue}
-                    onValueChange={(event) => setProgressValue(event)}
+                    value={progressValue[index].value}
+                    onValueChange={(inputValue) => {
+                      setProgressValue(progressValue.map((el, i) => (i === index ? { value: inputValue } : el)))
+                      console.log(progressValue)
+                    }}
                     placeholderText="Введите значение"
                   />
                 </div>
               ))}
             </div>
-            <Button fontSize={18} variant="base" children="Отправить" onClick={handleSetIsResponseFinished} />
+            <Button fontSize={18} variant="base" onClick={handleSetIsResponseFinished}>
+              Отправить
+            </Button>
           </>
         )}
       </div>
