@@ -15,10 +15,8 @@ export const WorkoutPage = () => {
 
   const courseName = courseFromBD?.nameRU
   const workoutNumber = Number(courseFromBD?.workouts.indexOf(id)) + 1
-  const progressArray = userState && userState.progress[course][id]
+  const progressArray = userState ? userState.progress[course][id] : [false]
   const [, ...currentProgress] = progressArray
-
-  console.log(currentProgress)
 
   const handleOpenModal = () => {
     setIsModalVisible(true)
@@ -64,7 +62,7 @@ export const WorkoutPage = () => {
                   workout.exercises.map((exercise, index) => (
                     <div key={workout._id + exercise.name} className={styles.progressItem}>
                       <p className={styles.progressItemText}>{exercise.name.split(' (')[0]}</p>
-                      <ProgressBar currentValue={0} maxValue={exercise.quantity} />
+                      <ProgressBar currentValue={Number(currentProgress[index])} maxValue={exercise.quantity} />
                     </div>
                   ))}
               </div>
