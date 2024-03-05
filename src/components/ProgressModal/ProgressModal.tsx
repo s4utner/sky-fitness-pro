@@ -1,20 +1,24 @@
 import type { FC } from 'react'
-import { Input, Button } from 'components'
 import { useState } from 'react'
+import { Input, Button } from 'components'
+import { useUpdateUserProgress } from 'hooks/useUpdateUserProgress'
 import type { IWorkout } from 'types'
 import sticker from './img/sticker.png'
 import styles from './ProgressModal.module.scss'
 
 interface ProgressModalProps {
+  courseId: string
   workout: IWorkout
   closeModal: () => void
 }
 
-export const ProgressModal: FC<ProgressModalProps> = ({ workout, closeModal }) => {
+export const ProgressModal: FC<ProgressModalProps> = ({ courseId, workout, closeModal }) => {
   const [progressValue, setProgressValue] = useState<{ value: number | string }[]>(
     workout.exercises.map(() => ({ value: '' })),
   )
   const [isResponseFinished, setIsResponseFinished] = useState<boolean>(false)
+
+  const {} = useUpdateUserProgress({ course: courseId, workoutId: workout._id, progressArray: progressValue })
 
   const handleSetIsResponseFinished = () => {
     setIsResponseFinished(true)
@@ -40,13 +44,13 @@ export const ProgressModal: FC<ProgressModalProps> = ({ workout, closeModal }) =
                     Сколько раз вы сделали {exercise.name.toLowerCase().split(' (')[0]}?
                   </p>
                   <Input
-                    inputType={"number"}
+                    inputType={'number'}
                     value={progressValue[index].value}
                     onValueChange={(inputValue) => {
                       setProgressValue(progressValue.map((el, i) => (i === index ? { value: inputValue } : el)))
                       console.log(progressValue)
                     }}
-                    placeholderText={"Введите значение"}
+                    placeholderText={'Введите значение'}
                   />
                 </div>
               ))}

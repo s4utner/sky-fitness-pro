@@ -80,7 +80,9 @@ export const WorkoutPage = () => {
           )}
         </div>
       </div>
-      {isModalVisible && <ProgressModal workout={workout} closeModal={handleCloseModal} />}
+      {isModalVisible && (
+        <ProgressModal courseId={courseFromBD?._id as string} workout={workout} closeModal={handleCloseModal} />
+      )}
     </div>
   ) : null
 }
