@@ -1,5 +1,5 @@
-import { Header, Button, ProgressBar, ProgressModal } from 'components'
-import { useWorkoutQuery, useUserStateQuery, useCourseQuery } from 'hooks'
+import { Header, Button, ProgressBar, UpdateProgressModal } from 'components'
+import { useWorkoutQuery, useUserStateQuery, useCourseQuery, useUpdateUserProgress } from 'hooks'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { createValidVideoUrl } from 'helpers/helpers'
@@ -13,12 +13,18 @@ export const WorkoutPage = () => {
   const { data: courseFromBD } = useCourseQuery(course)
   const { data: workout, isSuccess } = useWorkoutQuery(id)
 
-  console.log(userState)
+  const progressArrayForQuary: [boolean] = [true]
+  const { mutate: updateUserProgress, isSuccess: isSuccessUpdateUserProgress } = useUpdateUserProgress({
+    course: courseFromBD?._id as string,
+    workoutId: workout?._id as string,
+    progressArray: progressArrayForQuary,
+  })
+
+  console.log(isSuccessUpdateUserProgress)
 
   const courseName = courseFromBD?.nameRU
   const workoutNumber = (courseFromBD?.workouts.indexOf(id) as number) + 1
   const progressArray: [boolean, ...number[]] = userState ? userState.progress[course][id] : [false, 0]
-  console.log(progressArray)
   const [, ...currentProgress] = progressArray
 
   const handleOpenModal = () => {
@@ -61,8 +67,11 @@ export const WorkoutPage = () => {
               variant={'base'}
               fontSize={18}
               onClick={() => {
-                // При отстутствии упражнений при нажатии будем отправлять в БД информацию о завершении тренировки
-                workout.exercises ? handleOpenModal() : ''
+                if (workout.exercises) {
+                  handleOpenModal()
+                } else {
+                  updateUserProgress()
+                }
               }}
             >
               {workout.exercises ? 'Заполнить свой прогресс' : 'Завершить тренировку'}
@@ -85,7 +94,7 @@ export const WorkoutPage = () => {
         </div>
       </div>
       {isModalVisible && (
-        <ProgressModal
+        <UpdateProgressModal
           courseId={course}
           workout={workout}
           currentProgressArray={progressArray as [boolean, ...number[]]}
