@@ -68,7 +68,9 @@ export const ProgressModal: FC<ProgressModalProps> = ({ courseId, workout, curre
                 </div>
               ))}
             </div>
-            <Button fontSize={18} variant={'base'} children={'Отправить'} onClick={updateUserProgress} />
+            <Button fontSize={18} variant={'base'} onClick={updateUserProgress}>
+              Отправить
+            </Button>
           </>
         )}
       </div>

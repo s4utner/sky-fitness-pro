@@ -57,12 +57,13 @@ export const WorkoutPage = () => {
             <Button
               variant={'base'}
               fontSize={18}
-              children={workout.exercises ? 'Заполнить свой прогресс' : 'Завершить тренировку'}
               onClick={() => {
                 // При отстутствии упражнений при нажатии будем отправлять в БД информацию о завершении тренировки
                 workout.exercises ? handleOpenModal() : ''
               }}
-            />
+            >
+              {workout.exercises ? 'Заполнить свой прогресс' : 'Завершить тренировку'}
+            </Button>
           </div>
           {workout.exercises && (
             <div className={styles.progress}>
