@@ -13,9 +13,9 @@ export const WorkoutPage = () => {
   const { data: courseFromBD } = useCourseQuery(course)
   const { data: workout, isSuccess } = useWorkoutQuery(id)
 
-  const progressArrayForQuary: [boolean] = [true]
+  const progressArrayForQuary: [boolean, ...number[]] = [true]
   const { mutate: updateUserProgress, isSuccess: isSuccessUpdateUserProgress } = useUpdateUserProgress({
-    course: courseFromBD?._id as string,
+    course: course,
     workoutId: workout?._id as string,
     progressArray: progressArrayForQuary,
   })
