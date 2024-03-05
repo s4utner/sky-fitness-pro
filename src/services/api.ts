@@ -78,7 +78,9 @@ export const updateUserProgress = async ({
   workoutId: string
   progressArray: [boolean, ...number[]]
 }) => {
-  const user = getAuth(app).currentUser
+  const userFromLS: User = JSON.parse(localStorage.getItem('user-storage') as string).state.user
+
+  const user: User = getAuth(app).currentUser ?? userFromLS
 
   if (user) {
     const { uid } = user

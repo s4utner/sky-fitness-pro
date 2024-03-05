@@ -13,9 +13,12 @@ export const WorkoutPage = () => {
   const { data: courseFromBD } = useCourseQuery(course)
   const { data: workout, isSuccess } = useWorkoutQuery(id)
 
+  console.log(userState)
+
   const courseName = courseFromBD?.nameRU
   const workoutNumber = (courseFromBD?.workouts.indexOf(id) as number) + 1
-  const progressArray = userState ? userState.progress[course][id] : [false]
+  const progressArray: [boolean, ...number[]] = userState ? userState.progress[course][id] : [false, 0]
+  console.log(progressArray)
   const [, ...currentProgress] = progressArray
 
   const handleOpenModal = () => {
@@ -83,7 +86,7 @@ export const WorkoutPage = () => {
       </div>
       {isModalVisible && (
         <ProgressModal
-          courseId={courseFromBD?._id as string}
+          courseId={course}
           workout={workout}
           currentProgressArray={progressArray as [boolean, ...number[]]}
           closeModal={handleCloseModal}

@@ -15,24 +15,35 @@ interface ProgressModalProps {
 }
 
 export const ProgressModal: FC<ProgressModalProps> = ({ courseId, workout, currentProgressArray, closeModal }) => {
-  const [progressValue, setProgressValue] = useState<{ value: number }[]>(workout.exercises.map(() => ({ value: 0 })))
+  const [progressValue, setProgressValue] = useState<{ value: number | string }[]>(
+    workout.exercises.map(() => ({ value: '' })),
+  )
   // Делаю массив из чисел необходимого количества повторений
   const requiredProgress = workout.exercises.map((el) => el.quantity)
+  console.log(requiredProgress, 'requied')
   // Делаю массив из чисел из заполненных сейчас значений инпутов
-  const progressValueArray = progressValue.map((el) => el.value)
+  const progressValueArray = progressValue.map((el) => Number(el.value))
+  console.log(progressValueArray, 'filled now')
+
   // Делаю массив чисел из того прогресса, что пришел с сервера, без false в начале
   const [, ...shortCurrentProgressArray] = currentProgressArray
+  console.log(shortCurrentProgressArray, 'from server')
+
   // Суммирую массивы из того, что было + то, что заполнено в инпутах
   const resultProgressArray = progressValueArray.map((el, i) => el + shortCurrentProgressArray[i])
+  console.log(resultProgressArray, 'result arr')
+
   // Делаю массив из разницы между выполненным количеством повторений и тем, что необходимо
   const diffArray = resultProgressArray.map((el, i) => el - requiredProgress[i])
-// Выясняю есть ли хоть одно невыполненное упражнение (то есть количество требуемых повторений оказалось больше
-// чем количество выполненных повторений) Восклицательным знаком инвертирую результат
-// Этим я получаю переменную isDone - выполнен ли воркаут
+  console.log(diffArray, 'difference')
+
+  // Выясняю есть ли хоть одно невыполненное упражнение (то есть количество требуемых повторений оказалось больше
+  // чем количество выполненных повторений) Восклицательным знаком инвертирую результат
+  // Этим я получаю переменную isDone - выполнен ли воркаут
   const isDone = !diffArray.some((el) => el < 0)
-// Получаю итоговый массив, который можно отправлять на сервер
+  // Получаю итоговый массив, который можно отправлять на сервер
   const progressArrayForQuery: [boolean, ...number[]] = [isDone, ...resultProgressArray]
-  
+
   const {
     // в этой строке я получаю функцию mutate и говорю, что теперь она называется updateUserProgress
     mutate: updateUserProgress,
@@ -71,9 +82,7 @@ export const ProgressModal: FC<ProgressModalProps> = ({ courseId, workout, curre
                     inputType={'number'}
                     value={progressValue[index].value}
                     onValueChange={(inputValue) => {
-                      setProgressValue(
-                        progressValue.map((el, i) => (i === index ? { value: inputValue as number } : el)),
-                      )
+                      setProgressValue(progressValue.map((el, i) => (i === index ? { value: Number(inputValue) } : el)))
                       console.log(progressValue)
                     }}
                     placeholderText={'Введите значение'}
