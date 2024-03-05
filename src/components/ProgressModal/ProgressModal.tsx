@@ -9,25 +9,38 @@ import styles from './ProgressModal.module.scss'
 interface ProgressModalProps {
   courseId: string
   workout: IWorkout
+  // Массив с текущим пользовательским прогрессом
+  currentProgressArray: [boolean, ...number[]] | boolean[]
   closeModal: () => void
 }
 
-export const ProgressModal: FC<ProgressModalProps> = ({ courseId, workout, closeModal }) => {
+export const ProgressModal: FC<ProgressModalProps> = ({ courseId, workout, currentProgressArray, closeModal }) => {
   const [progressValue, setProgressValue] = useState<{ value: number | string }[]>(
     workout.exercises.map(() => ({ value: '' })),
   )
-  const [isResponseFinished, setIsResponseFinished] = useState<boolean>(false)
 
-  const {} = useUpdateUserProgress({ course: courseId, workoutId: workout._id, progressArray: progressValue })
+  function updateUserProgress() {
+    // Шаг 2
+    // По логике новый массив должен создаваться здесь, но в таком случае его не передать в хук useUpdateUserProgress
 
-  const handleSetIsResponseFinished = () => {
-    setIsResponseFinished(true)
+    // Может быть новый массив должен обновляться в useEffect после обновления значений progressValue, но так его в хук useUpdateUserProgress тоже не передать
+    mutate()
   }
+
+  const { mutate, isError, isSuccess } = useUpdateUserProgress({
+    course: courseId,
+    workoutId: workout._id,
+    // Шаг 1
+    // Нужно передать массив типа [boolean, number[]]
+    // Для этого выше нужно создать массив, который будет принимать в себя сумму значений массивов progressValue и defaultProgressArray
+    // Также созданный массив должен менять булевое значение false на true при достижении максимального прогресса в каждом упражнении тренировки
+    progressArray: progressValue,
+  })
 
   return (
     <div className={styles.background} onClick={closeModal}>
       <div className={styles.container} onClick={(event) => event.stopPropagation()}>
-        {isResponseFinished ? (
+        {isSuccess ? (
           <div className={styles.finishedModal}>
             <p className={styles.finishedModalText}>
               Ваш прогресс <br /> засчитан!
@@ -55,7 +68,7 @@ export const ProgressModal: FC<ProgressModalProps> = ({ courseId, workout, close
                 </div>
               ))}
             </div>
-            <Button fontSize={18} variant={'base'} children={'Отправить'} onClick={handleSetIsResponseFinished} />
+            <Button fontSize={18} variant={'base'} children={'Отправить'} onClick={updateUserProgress} />
           </>
         )}
       </div>

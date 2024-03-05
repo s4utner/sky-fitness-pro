@@ -81,7 +81,12 @@ export const WorkoutPage = () => {
         </div>
       </div>
       {isModalVisible && (
-        <ProgressModal courseId={courseFromBD?._id as string} workout={workout} closeModal={handleCloseModal} />
+        <ProgressModal
+          courseId={courseFromBD?._id as string}
+          workout={workout}
+          currentProgressArray={progressArray}
+          closeModal={handleCloseModal}
+        />
       )}
     </div>
   ) : null
