@@ -84,7 +84,7 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
             <Button
               fontSize={18}
               variant={'base'}
-              isDisabled={isButtonDisabled}
+              disabled={isButtonDisabled}
               onClick={() => {
                 handleButtonDisabled()
                 updateUserProgress()

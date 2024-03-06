@@ -62,26 +62,30 @@ export const WorkoutPage = () => {
       <div className={styles.content}>
         <Header />
         <nav className={styles.navigation}>
-          <p
-            className={styles.navigationItem}
-            onClick={() => {
-              if (previousWorkout) {
-                navigate(`/workouts/${course}/${previousWorkout}`)
-              }
-            }}
-          >
-            ← Предыдущая тренировка
-          </p>
-          <p
-            className={styles.navigationItem}
-            onClick={() => {
-              if (nextWorkout) {
-                navigate(`/workouts/${course}/${nextWorkout}`)
-              }
-            }}
-          >
-            Следующая тренировка →
-          </p>
+          {previousWorkout && (
+            <p
+              className={styles.previousWorkoutButton}
+              onClick={() => {
+                if (previousWorkout) {
+                  navigate(`/workouts/${course}/${previousWorkout}`)
+                }
+              }}
+            >
+              ← Предыдущая тренировка
+            </p>
+          )}
+          {nextWorkout && (
+            <p
+              className={styles.nextWorkoutButton}
+              onClick={() => {
+                if (nextWorkout) {
+                  navigate(`/workouts/${course}/${nextWorkout}`)
+                }
+              }}
+            >
+              Следующая тренировка →
+            </p>
+          )}
         </nav>
         <h1 className={styles.title}>{courseName}</h1>
         <p className={styles.heading}>{isSuccess && workout.name}</p>
@@ -111,7 +115,7 @@ export const WorkoutPage = () => {
               <Button
                 variant={'base'}
                 fontSize={18}
-                isDisabled={isButtonDisabled}
+                disabled={isButtonDisabled}
                 onClick={() => {
                   handleButtonDisabled()
 
