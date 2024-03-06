@@ -1,4 +1,4 @@
-import { Header, Button, FitnessCard, ProfileEdit, YesNoPopUp } from 'components'
+import { Header, Button, FitnessCard, ProfileEdit, YesNoPopUp, LoaderSpinner } from 'components'
 import { useState } from 'react'
 import { useStore } from 'store/AuthStore'
 import {
@@ -19,9 +19,9 @@ export const ProfilePage = () => {
   const login = user?.email
   const password = user?.password
 
-  const { data: userState } = useUserStateQuery()
-  const { data: coursesFromDB } = useAllCoursesQuery()
-  const { data: workoutsFromDB } = useAllWorkoutsQuery()
+  const { data: userState, isLoading: isUserStateLoading } = useUserStateQuery()
+  const { data: coursesFromDB, isLoading: isCoursesFromDBLoading } = useAllCoursesQuery()
+  const { data: workoutsFromDB, isLoading: isWorkoutsFromDBLoading } = useAllWorkoutsQuery()
 
   const [isPassVisible, setIsPassVisible] = useState<boolean>(false)
   const [authPopUp, setAuthPopUp] = useState<'login' | 'password' | null>(null)
@@ -101,6 +101,10 @@ export const ProfilePage = () => {
   }
 
   const agreeFunc = cardEditPopUp === 'delete' ? () => deleteCourse() : () => addCourse()
+
+  if (isUserStateLoading || isCoursesFromDBLoading || isWorkoutsFromDBLoading) {
+    return <LoaderSpinner />
+  }
 
   return (
     <div className={style.container}>
