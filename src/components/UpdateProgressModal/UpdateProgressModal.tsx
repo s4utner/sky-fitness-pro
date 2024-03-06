@@ -74,7 +74,6 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
                     value={progressValue[index].value}
                     onValueChange={(inputValue) => {
                       setProgressValue(progressValue.map((el, i) => (i === index ? { value: Number(inputValue) } : el)))
-                      console.log(progressValue)
                     }}
                     placeholderText={'Введите значение'}
                   />
