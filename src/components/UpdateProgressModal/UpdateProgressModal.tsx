@@ -1,9 +1,8 @@
 import type { FC } from 'react'
 import { useState } from 'react'
-import { Input, Button } from 'components'
+import { Input, Button, SuccessProgressModal } from 'components'
 import { useUpdateUserProgress } from 'hooks'
 import type { IWorkout } from 'types'
-import sticker from './img/sticker.png'
 import styles from './UpdateProgressModal.module.scss'
 
 interface UpdateProgressModalProps {
@@ -42,12 +41,7 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
     <div className={styles.background} onClick={closeModal}>
       <div className={styles.container} onClick={(event) => event.stopPropagation()}>
         {isSuccess ? (
-          <div className={styles.finishedModal}>
-            <p className={styles.finishedModalText}>
-              Ваш прогресс <br /> засчитан!
-            </p>
-            <img className={styles.finishedModalSticker} src={sticker} />
-          </div>
+          <SuccessProgressModal />
         ) : (
           <>
             <p className={styles.title}>Мой прогресс</p>
