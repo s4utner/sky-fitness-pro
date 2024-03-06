@@ -1,7 +1,7 @@
 import { Header, Button, ProgressBar, UpdateProgressModal, SuccessProgressModal } from 'components'
 import { useWorkoutQuery, useUserStateQuery, useCourseQuery, useUpdateUserProgress } from 'hooks'
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { createValidVideoUrl } from 'helpers/helpers'
 import styles from './WorkoutPage.module.scss'
 
@@ -9,6 +9,7 @@ export const WorkoutPage = () => {
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false)
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
   const { id = '', course = '' } = useParams()
+  const navigate = useNavigate()
 
   const { data: userState } = useUserStateQuery()
   const { data: courseFromBD } = useCourseQuery(course)
@@ -22,6 +23,10 @@ export const WorkoutPage = () => {
   })
 
   const courseName = courseFromBD?.nameRU
+  const workouts = courseFromBD?.workouts
+  const indexOfCurrentWorkout = workouts?.indexOf(id)
+  const previousWorkout = workouts?.[(indexOfCurrentWorkout as number) - 1]
+  const nextWorkout = workouts?.[(indexOfCurrentWorkout as number) + 1]
   const workoutNumber = (courseFromBD?.workouts.indexOf(id) as number) + 1
   const progressArray: [boolean, ...number[]] = userState ? userState.progress[course][id] : [false, 0]
   const [, ...currentProgress] = progressArray
@@ -47,6 +52,28 @@ export const WorkoutPage = () => {
     <div className={isUpdateModalVisible || isSuccessModalVisible ? styles.modalContainer : styles.courseContainer}>
       <div className={styles.content}>
         <Header />
+        <nav className={styles.navigation}>
+          <p
+            className={styles.navigationItem}
+            onClick={() => {
+              if (previousWorkout) {
+                navigate(`/workouts/${course}/${previousWorkout}`)
+              }
+            }}
+          >
+            ← Предыдущая тренировка
+          </p>
+          <p
+            className={styles.navigationItem}
+            onClick={() => {
+              if (nextWorkout) {
+                navigate(`/workouts/${course}/${nextWorkout}`)
+              }
+            }}
+          >
+            Следующая тренировка →
+          </p>
+        </nav>
         <h1 className={styles.title}>{courseName}</h1>
         <p className={styles.heading}>{isSuccess && workout.name}</p>
         <iframe
