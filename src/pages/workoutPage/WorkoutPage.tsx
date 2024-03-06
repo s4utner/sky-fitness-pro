@@ -1,4 +1,4 @@
-import { Header, Button, ProgressBar, UpdateProgressModal } from 'components'
+import { Header, Button, ProgressBar, UpdateProgressModal, SuccessProgressModal } from 'components'
 import { useWorkoutQuery, useUserStateQuery, useCourseQuery, useUpdateUserProgress } from 'hooks'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
@@ -6,7 +6,8 @@ import { createValidVideoUrl } from 'helpers/helpers'
 import styles from './WorkoutPage.module.scss'
 
 export const WorkoutPage = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false)
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
   const { id = '', course = '' } = useParams()
 
   const { data: userState } = useUserStateQuery()
@@ -20,23 +21,30 @@ export const WorkoutPage = () => {
     progressArray: progressArrayForQuary,
   })
 
-  console.log(isSuccessUpdateUserProgress)
-
   const courseName = courseFromBD?.nameRU
   const workoutNumber = (courseFromBD?.workouts.indexOf(id) as number) + 1
   const progressArray: [boolean, ...number[]] = userState ? userState.progress[course][id] : [false, 0]
   const [, ...currentProgress] = progressArray
+  const isDone = progressArray[0]
 
-  const handleOpenModal = () => {
-    setIsModalVisible(true)
+  const handleOpenUpdateModal = () => {
+    setIsUpdateModalVisible(true)
   }
 
-  const handleCloseModal = () => {
-    setIsModalVisible(false)
+  const handleOpenSuccessModal = () => {
+    setIsSuccessModalVisible(true)
+  }
+
+  const handleCloseUpdateModal = () => {
+    setIsUpdateModalVisible(false)
+  }
+
+  const handleCloseSuccessModal = () => {
+    setIsSuccessModalVisible(false)
   }
 
   return workout ? (
-    <div className={isModalVisible ? styles.modalContainer : styles.courseContainer}>
+    <div className={isUpdateModalVisible || isSuccessModalVisible ? styles.modalContainer : styles.courseContainer}>
       <div className={styles.content}>
         <Header />
         <h1 className={styles.title}>{courseName}</h1>
@@ -63,19 +71,22 @@ export const WorkoutPage = () => {
                 </ul>
               </>
             )}
-            <Button
-              variant={'base'}
-              fontSize={18}
-              onClick={() => {
-                if (workout.exercises) {
-                  handleOpenModal()
-                } else {
-                  updateUserProgress()
-                }
-              }}
-            >
-              {workout.exercises ? 'Заполнить свой прогресс' : 'Завершить тренировку'}
-            </Button>
+            {!isDone && (
+              <Button
+                variant={'base'}
+                fontSize={18}
+                onClick={() => {
+                  if (workout.exercises) {
+                    handleOpenUpdateModal()
+                  } else {
+                    handleOpenSuccessModal()
+                    updateUserProgress()
+                  }
+                }}
+              >
+                {workout.exercises ? 'Заполнить свой прогресс' : 'Завершить тренировку'}
+              </Button>
+            )}
           </div>
           {workout.exercises && (
             <div className={styles.progress}>
@@ -93,13 +104,20 @@ export const WorkoutPage = () => {
           )}
         </div>
       </div>
-      {isModalVisible && (
+      {isUpdateModalVisible && (
         <UpdateProgressModal
           courseId={course}
           workout={workout}
           currentProgressArray={progressArray as [boolean, ...number[]]}
-          closeModal={handleCloseModal}
+          closeModal={handleCloseUpdateModal}
         />
+      )}
+      {isSuccessUpdateUserProgress && isSuccessModalVisible && (
+        <div className={styles.successModalBackground} onClick={handleCloseSuccessModal}>
+          <div className={styles.successModalContainer} onClick={(event) => event.stopPropagation()}>
+            <SuccessProgressModal />
+          </div>
+        </div>
       )}
     </div>
   ) : null

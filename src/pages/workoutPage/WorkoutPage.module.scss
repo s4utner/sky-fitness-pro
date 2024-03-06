@@ -93,3 +93,27 @@
     }
   }
 }
+
+.successModalBackground {
+  position: absolute;
+  z-index: 1;
+  height: 100vh;
+  overflow: hidden;
+  width: 100%;
+  background-color: #271a5890;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.successModalContainer {
+  position: fixed;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fff;
+  box-sizing: border-box;
+  padding: 36px 42px 42px;
+  border-radius: 12px;
+}
