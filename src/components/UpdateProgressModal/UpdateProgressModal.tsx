@@ -10,6 +10,7 @@ interface UpdateProgressModalProps {
   workout: IWorkout
   currentProgressArray: [boolean, ...number[]]
   closeModal: () => void
+  activateButton: () => void
 }
 
 export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
@@ -17,10 +18,20 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
   workout,
   currentProgressArray,
   closeModal,
+  activateButton,
 }) => {
   const [progressValue, setProgressValue] = useState<{ value: number | string }[]>(
     workout.exercises.map(() => ({ value: '' })),
   )
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
+
+  const handleButtonActive = () => {
+    setIsButtonDisabled(false)
+  }
+
+  const handleButtonDisabled = () => {
+    setIsButtonDisabled(true)
+  }
 
   const requiredProgress = workout.exercises.map((el) => el.quantity)
   const progressValueArray = progressValue.map((el) => Number(el.value))
@@ -38,7 +49,14 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
   })
 
   return (
-    <div className={styles.background} onClick={closeModal}>
+    <div
+      className={styles.background}
+      onClick={() => {
+        activateButton()
+        handleButtonActive()
+        closeModal()
+      }}
+    >
       <div className={styles.container} onClick={(event) => event.stopPropagation()}>
         {isSuccess ? (
           <SuccessProgressModal />
@@ -63,7 +81,15 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
                 </div>
               ))}
             </div>
-            <Button fontSize={18} variant={'base'} onClick={() => updateUserProgress()}>
+            <Button
+              fontSize={18}
+              variant={'base'}
+              isDisabled={isButtonDisabled}
+              onClick={() => {
+                handleButtonDisabled()
+                updateUserProgress()
+              }}
+            >
               Отправить
             </Button>
           </>

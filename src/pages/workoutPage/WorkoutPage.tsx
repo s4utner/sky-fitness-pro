@@ -8,6 +8,7 @@ import styles from './WorkoutPage.module.scss'
 export const WorkoutPage = () => {
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false)
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false)
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const { id = '', course = '' } = useParams()
   const navigate = useNavigate()
 
@@ -46,6 +47,14 @@ export const WorkoutPage = () => {
 
   const handleCloseSuccessModal = () => {
     setIsSuccessModalVisible(false)
+  }
+
+  const handleButtonActive = () => {
+    setIsButtonDisabled(false)
+  }
+
+  const handleButtonDisabled = () => {
+    setIsButtonDisabled(true)
   }
 
   return workout ? (
@@ -102,7 +111,10 @@ export const WorkoutPage = () => {
               <Button
                 variant={'base'}
                 fontSize={18}
+                isDisabled={isButtonDisabled}
                 onClick={() => {
+                  handleButtonDisabled()
+
                   if (workout.exercises) {
                     handleOpenUpdateModal()
                   } else {
@@ -137,10 +149,17 @@ export const WorkoutPage = () => {
           workout={workout}
           currentProgressArray={progressArray as [boolean, ...number[]]}
           closeModal={handleCloseUpdateModal}
+          activateButton={handleButtonActive}
         />
       )}
       {isSuccessUpdateUserProgress && isSuccessModalVisible && (
-        <div className={styles.successModalBackground} onClick={handleCloseSuccessModal}>
+        <div
+          className={styles.successModalBackground}
+          onClick={() => {
+            handleButtonActive()
+            handleCloseSuccessModal()
+          }}
+        >
           <div className={styles.successModalContainer} onClick={(event) => event.stopPropagation()}>
             <SuccessProgressModal />
           </div>
