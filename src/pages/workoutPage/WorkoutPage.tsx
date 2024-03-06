@@ -24,11 +24,7 @@ export const WorkoutPage = () => {
   })
 
   if (isUserStateLoading || isCourseFromBDLoading || isWorkoutLoading) {
-    return (
-      <div>
-        <LoaderSpinner />
-      </div>
-    )
+    return <LoaderSpinner />
   }
 
   const courseName = courseFromBD?.nameRU
