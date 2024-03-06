@@ -1,4 +1,4 @@
-import { Header, Button, ProgressBar, UpdateProgressModal, SuccessProgressModal } from 'components'
+import { Header, Button, ProgressBar, UpdateProgressModal, SuccessProgressModal, LoaderSpinner } from 'components'
 import { useWorkoutQuery, useUserStateQuery, useCourseQuery, useUpdateUserProgress } from 'hooks'
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -12,9 +12,9 @@ export const WorkoutPage = () => {
   const { id = '', course = '' } = useParams()
   const navigate = useNavigate()
 
-  const { data: userState } = useUserStateQuery()
-  const { data: courseFromBD } = useCourseQuery(course)
-  const { data: workout, isSuccess } = useWorkoutQuery(id)
+  const { data: userState, isLoading: isUserStateLoading } = useUserStateQuery()
+  const { data: courseFromBD, isLoading: isCourseFromBDLoading } = useCourseQuery(course)
+  const { data: workout, isLoading: isWorkoutLoading, isSuccess } = useWorkoutQuery(id)
 
   const progressArrayForQuary: [boolean, ...number[]] = [true]
   const { mutate: updateUserProgress, isSuccess: isSuccessUpdateUserProgress } = useUpdateUserProgress({
@@ -22,6 +22,14 @@ export const WorkoutPage = () => {
     workoutId: workout?._id as string,
     progressArray: progressArrayForQuary,
   })
+
+  if (isUserStateLoading || isCourseFromBDLoading || isWorkoutLoading) {
+    return (
+      <div>
+        <LoaderSpinner />
+      </div>
+    )
+  }
 
   const courseName = courseFromBD?.nameRU
   const workouts = courseFromBD?.workouts
