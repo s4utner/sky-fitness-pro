@@ -63,7 +63,7 @@ export const WorkoutPage = () => {
         <Header />
         <nav className={styles.navigation}>
           {previousWorkout && (
-            <a
+            <p
               className={styles.previousWorkoutButton}
               onClick={() => {
                 if (previousWorkout) {
@@ -72,10 +72,10 @@ export const WorkoutPage = () => {
               }}
             >
               ← Предыдущая тренировка
-            </a>
+            </p>
           )}
           {nextWorkout && (
-            <a
+            <p
               className={styles.nextWorkoutButton}
               onClick={() => {
                 if (nextWorkout) {
@@ -84,7 +84,7 @@ export const WorkoutPage = () => {
               }}
             >
               Следующая тренировка →
-            </a>
+            </p>
           )}
         </nav>
         <h1 className={styles.title}>{courseName}</h1>
