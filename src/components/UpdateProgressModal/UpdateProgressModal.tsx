@@ -1,5 +1,5 @@
 import { Input, Button, SuccessProgressModal } from 'components'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useUpdateUserProgress } from 'hooks'
 import type { IWorkout } from 'types'
 import type { FC } from 'react'
@@ -23,6 +23,7 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
   const [progressValue, setProgressValue] = useState<{ value: number | string }[]>(
     workout.exercises.map(() => ({ value: '' })),
   )
+  const [errorMessage, setErrorMessage] = useState('')
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   const handleButtonActive = () => {
@@ -47,6 +48,23 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
     workoutId: workout._id,
     progressArray: progressArrayForQuery,
   })
+
+  const handleUpdateUserProgress = () => {
+    handleButtonDisabled()
+    const isNegativeValue = progressValue.some((value) => Number(value.value) < 0)
+
+    if (isNegativeValue) {
+      setErrorMessage('Значение прогресса не может быть отрицательным')
+      return
+    }
+
+    updateUserProgress()
+  }
+
+  useEffect(() => {
+    setErrorMessage('')
+    handleButtonActive()
+  }, [progressValue])
 
   return (
     <div
@@ -84,13 +102,11 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
               fontSize={18}
               variant={'base'}
               disabled={isButtonDisabled}
-              onClick={() => {
-                handleButtonDisabled()
-                updateUserProgress()
-              }}
+              onClick={() => handleUpdateUserProgress()}
             >
               Отправить
             </Button>
+            {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
           </>
         )}
       </div>
