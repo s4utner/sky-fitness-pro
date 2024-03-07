@@ -106,10 +106,12 @@
 
   .description {
     margin-top: 20px;
+
     padding: 0 20px;
   }
   .directions {
     margin-top: 20px;
+    margin-left: 10px;
 
     h2 {
       text-align: center;
@@ -122,13 +124,11 @@
     ul {
       font-size: 18px;
       line-height: 32px;
-      column-gap: 70px;
+      column-gap: 60px;
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       grid-template-rows: repeat(3, 1fr);
-      grid-auto-flow: column dense;
+      grid-auto-flow: row dense;
     }
-  }
-  li {
   }
 }

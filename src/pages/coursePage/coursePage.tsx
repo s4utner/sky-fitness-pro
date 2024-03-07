@@ -37,7 +37,7 @@ export const CoursePage = () => {
             </div>
             <div className={style.directions}>
               <h2>Направления:</h2>
-              <ul className={style.directionItems}>
+              <ul>
                 {data.directions.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
