@@ -79,6 +79,9 @@ export const logoutUser = async () => {
 
 export const updateLogin = async ({ email }: StringObject) => {
   try {
+    const userFromLS: User = getUserFromLS()
+    const user: User = getAuth(app).currentUser ?? userFromLS
+
     if (user) return updateEmail(user, email)
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message)
@@ -87,6 +90,9 @@ export const updateLogin = async ({ email }: StringObject) => {
 
 export const updateUserPassword = async ({ password }: StringObject) => {
   try {
+    const userFromLS: User = getUserFromLS()
+    const user: User = getAuth(app).currentUser ?? userFromLS
+
     if (user) return updatePassword(user, password)
   } catch (error) {
     if (error instanceof Error) throw new Error(error.message)
