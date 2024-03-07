@@ -7,8 +7,8 @@
 }
 
 .content {
-  width: 1160px;
-  padding-bottom: 25px;
+  max-width: 1160px;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -94,4 +94,25 @@
 
 .notFound {
   font-size: 32px;
+}
+
+//Адаптив
+@media screen and (max-width: 430px) {
+  .content {
+    margin: 0 auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .title {
+    font-size: 2.5rem;
+  }
+  .cards {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    gap: 40px;
+  }
 }
