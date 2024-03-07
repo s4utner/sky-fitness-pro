@@ -107,20 +107,18 @@ export const ProfilePage = () => {
 
   const agreeFunc = cardEditPopUp === 'delete' ? () => deleteCourse() : () => addCourse()
 
-  if (
+  const isAnythingLoading =
     isUserStateLoading ||
     isCoursesFromDBLoading ||
     isWorkoutsFromDBLoading ||
     isAddCourseLoading ||
     isDeleteCourseLoading
-  ) {
-    return <LoaderSpinner />
-  }
 
   if (isError) console.warn(error)
 
   return (
     <div className={style.container}>
+      {isAnythingLoading && <LoaderSpinner />}
       <ProfileEdit variant={authPopUp} closeFunc={closeFunc} />
       <CourseAddPopup variant={cardEditPopUp} course={editPopUpCourse} agreeFunc={agreeFunc} closeFunc={closeFunc} />
 

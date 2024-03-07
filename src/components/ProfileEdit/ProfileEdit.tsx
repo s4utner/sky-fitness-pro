@@ -1,40 +1,100 @@
-import { Button, Logo, Input } from 'components'
-import { useState } from 'react'
+import { Button, Logo, Input, LoaderSpinner } from 'components'
+import { useEffect, useState } from 'react'
 import { useStore } from 'store/AuthStore'
 import { updateLogin, updateUserPassword } from 'services/api'
 import type { FC, MouseEvent, PropsWithChildren } from 'react'
 import style from './ProfileEdit.module.scss'
+import { validateEmail, validatePassword } from 'helpers/helpersFunction'
 
 interface ProfileEditProps {
   variant?: 'login' | 'password' | null
-  closeFunc?: () => void
+  closeFunc: () => void
 }
 
 export const ProfileEdit: FC<PropsWithChildren & ProfileEditProps> = ({ variant = 'login', closeFunc }) => {
   const [loginValue, setLoginValue] = useState<string | number>('')
   const [passValue, setPassValue] = useState<string | number>('')
   const [repeatValue, setRepeatValue] = useState<string | number>('')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const user = useStore((store) => store.user)
   const setUser = useStore((store) => store.setUser)
+  const closeFunction = () => {
+    setLoginValue('')
+    setPassValue('')
+    setRepeatValue('')
+    closeFunc()
+  }
 
+  // eslint-disable-next-line sonarjs/cognitive-complexity
   const saveButtonHandler = async () => {
-    if (loginValue && variant === 'login') updateLogin({ email: String(loginValue) })
+    if (variant === 'login') {
+      if (!loginValue) {
+        setErrorMessage('Введите новый логин')
+        return
+      }
 
-    if (passValue === repeatValue && variant === 'password') {
+      if (!validateEmail(loginValue as string)) {
+        setErrorMessage('Введите корректный e-mail')
+        return
+      }
+
+      setIsLoading(true)
+      try {
+        await updateLogin({ email: String(loginValue) })
+        if (user) setUser({ ...user, email: String(loginValue) })
+      } catch (error) {
+        console.warn(error)
+      }
+      setIsLoading(false)
+
+      closeFunction()
+    }
+
+    if (variant === 'password') {
+      if (!passValue) {
+        setErrorMessage('Введите новый пароль')
+        return
+      }
+
+      if (!validatePassword(passValue as string)) {
+        setErrorMessage('Длина пароля должна быть не меннее 6 и не более 64 символов')
+        return
+      }
+
+      if (!repeatValue) {
+        setErrorMessage('Повторите пароль')
+        return
+      }
+
+      if (passValue !== repeatValue) {
+        setErrorMessage('Пароли не совпадают')
+        return
+      }
+      setIsLoading(true)
       try {
         await updateUserPassword({ password: String(passValue) })
         if (user) setUser({ ...user, password: String(passValue) })
       } catch (error) {
         console.warn(error)
       }
+      setIsLoading(false)
+
+      closeFunction()
     }
   }
+
+  useEffect(() => {
+    setErrorMessage('')
+  }, [loginValue, passValue, repeatValue])
 
   if (variant === null) return
 
   return (
-    <div className={style.box} onClick={closeFunc}>
+    <div className={style.box} onClick={closeFunction}>
+      {isLoading && <LoaderSpinner />}
+      {errorMessage && <div className={style.error}>{errorMessage}</div>}
       <div onClick={(e: MouseEvent) => e.stopPropagation()} className={style.content}>
         <Logo />
 

@@ -14,6 +14,7 @@ export interface IUserState {
 
 export interface ICustomUser extends User {
   password: string
+  email: string
 }
 
 export interface ICourse {
