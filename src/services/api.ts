@@ -107,6 +107,27 @@ export const addCourse = async ({
   })
 }
 
+export const removeCourse = async ({
+  courses,
+  course,
+}: {
+  courses: string[]
+  course: string
+}) => {
+  const userFromLS: User = getUserFromLS()
+  const user: User = getAuth(app).currentUser ?? userFromLS
+  const { uid } = user
+
+  const pathToProgres = `users/${uid}/progress/${course}`
+  const pathToCourses = `users/${uid}`
+
+  await update(child(db, pathToCourses), {
+    courses: courses,
+  })
+
+  await remove(child(db, pathToProgres))
+}
+
 export const updateUserProgress = async ({
   course,
   workoutId,
