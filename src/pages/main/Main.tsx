@@ -35,7 +35,7 @@ export const Main = () => {
         <div className={style.fitnessCards}>{cardsElements}</div>
 
         <footer className={style.footer}>
-          <Button onClick={() => window.scrollTo(0, 0)} variant="green" width={150}>
+          <Button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} variant="green" width={150}>
             Наверх ↑
           </Button>
         </footer>
