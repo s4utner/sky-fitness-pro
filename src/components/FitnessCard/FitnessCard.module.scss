@@ -167,3 +167,13 @@
     color: #06b16e;
   }
 }
+
+@media screen and (max-width: 430px) {
+  .box {
+    position: relative;
+    width: 360px;
+    height: 480px;
+    cursor: pointer;
+    border-radius: 30px;
+  }
+}

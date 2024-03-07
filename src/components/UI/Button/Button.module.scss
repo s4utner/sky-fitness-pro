@@ -72,3 +72,9 @@
     border: 1px solid #e44040;
   }
 }
+
+@media screen and (max-width: 430px) {
+  .btn {
+    height: 40px;
+  }
+}
