@@ -8,10 +8,10 @@ import {
   useDeleteCourseQuery,
   useUserStateQuery,
 } from 'hooks'
-import style from './ProfilePage.module.scss'
 import { imagesMap } from 'consts'
 import { getProgressTemplate } from 'helpers/helpers'
 import type { IUserState } from 'types'
+import style from './ProfilePage.module.scss'
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const ProfilePage = () => {
