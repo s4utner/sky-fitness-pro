@@ -1,7 +1,4 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import type { Dispatch, SetStateAction, FC, PropsWithChildren } from 'react'
-import type { IWorkouts } from 'types'
+import { useState, type FC, type PropsWithChildren } from 'react'
 import styles from './FitnessCard.module.scss'
 
 interface FitnessCardProps {
