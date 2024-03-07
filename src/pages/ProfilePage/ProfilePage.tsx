@@ -89,8 +89,16 @@ export const ProfilePage = () => {
 
   const resultCourses = doCoursesExist ? [...(userState.courses ?? []), editPopUpCourse[0]] : [editPopUpCourse[0]]
   const resultCoursesForDel = doCoursesExist && userState.courses.filter((el) => el !== editPopUpCourse[0])
-  const { mutate: addCourse } = useAddCourseQuery(resultCourses as string[], resultProgress as IUserState['progress'])
-  const { mutate: deleteCourse } = useDeleteCourseQuery(resultCoursesForDel as string[], editPopUpCourse[0])
+  const {
+    mutate: addCourse,
+    isPending: isAddCourseLoading,
+    isError,
+    error,
+  } = useAddCourseQuery(resultCourses as string[], resultProgress as IUserState['progress'])
+  const { mutate: deleteCourse, isPending: isDeleteCourseLoading } = useDeleteCourseQuery(
+    resultCoursesForDel as string[],
+    editPopUpCourse[0],
+  )
 
   const closeFunc = () => {
     setAuthPopUp(null)
@@ -99,9 +107,17 @@ export const ProfilePage = () => {
 
   const agreeFunc = cardEditPopUp === 'delete' ? () => deleteCourse() : () => addCourse()
 
-  if (isUserStateLoading || isCoursesFromDBLoading || isWorkoutsFromDBLoading) {
+  if (
+    isUserStateLoading ||
+    isCoursesFromDBLoading ||
+    isWorkoutsFromDBLoading ||
+    isAddCourseLoading ||
+    isDeleteCourseLoading
+  ) {
     return <LoaderSpinner />
   }
+
+  if (isError) console.warn(error)
 
   return (
     <div className={style.container}>
