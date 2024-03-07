@@ -28,7 +28,6 @@ const app = initializeApp(firebaseConfig)
 type StringObject = Record<string, string>
 
 const db = ref(getDatabase(app))
-const user = getAuth(app).currentUser
 const getUserFromLS = (): User => JSON.parse(localStorage.getItem('user-storage') as string).state.user
 
 export const initUserState = async () => {
