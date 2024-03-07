@@ -12,8 +12,8 @@ export const CoursePage = () => {
     <div className={style.container}>
       {data ? (
         <>
-          <Header color="black" isButtonHided={true} />
           <div className={style.content}>
+            <Header color="black" isButtonHided={true} />
             <div className={style.preview}>
               <PromoImage name={data.nameEN as CourseNamesEnum} />
             </div>
@@ -32,7 +32,7 @@ export const CoursePage = () => {
             </div>
             <div className={style.directions}>
               <h2>Направления:</h2>
-              <ul>
+              <ul className={style.directionItems}>
                 {data.directions.map((item, index) => (
                   <li key={index}>{item}</li>
                 ))}
