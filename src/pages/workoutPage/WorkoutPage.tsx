@@ -16,11 +16,11 @@ export const WorkoutPage = () => {
   const { data: courseFromBD, isLoading: isCourseFromBDLoading } = useCourseQuery(course)
   const { data: workout, isLoading: isWorkoutLoading, isSuccess } = useWorkoutQuery(id)
 
-  const progressArrayForQuary: [boolean, ...number[]] = [true]
+  const progressArrayForQuery: [boolean, ...number[]] = [true]
   const { mutate: updateUserProgress, isSuccess: isSuccessUpdateUserProgress } = useUpdateUserProgress({
     course: course,
     workoutId: workout?._id as string,
-    progressArray: progressArrayForQuary,
+    progressArray: progressArrayForQuery,
   })
 
   if (isUserStateLoading || isCourseFromBDLoading || isWorkoutLoading) {
@@ -67,7 +67,7 @@ export const WorkoutPage = () => {
         <Header />
         <nav className={styles.navigation}>
           {previousWorkout && (
-            <a
+            <p
               className={styles.previousWorkoutButton}
               onClick={() => {
                 if (previousWorkout) {
@@ -76,10 +76,10 @@ export const WorkoutPage = () => {
               }}
             >
               ← Предыдущая тренировка
-            </a>
+            </p>
           )}
           {nextWorkout && (
-            <a
+            <p
               className={styles.nextWorkoutButton}
               onClick={() => {
                 if (nextWorkout) {
@@ -88,7 +88,7 @@ export const WorkoutPage = () => {
               }}
             >
               Следующая тренировка →
-            </a>
+            </p>
           )}
         </nav>
         <h1 className={styles.title}>{courseName}</h1>

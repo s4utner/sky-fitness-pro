@@ -1,4 +1,4 @@
-import { Header, Button, FitnessCard, ProfileEdit, YesNoPopUp, LoaderSpinner } from 'components'
+import { Header, Button, FitnessCard, ProfileEdit, CourseAddPopup, LoaderSpinner } from 'components'
 import { useState } from 'react'
 import { useStore } from 'store/AuthStore'
 import {
@@ -8,10 +8,10 @@ import {
   useDeleteCourseQuery,
   useUserStateQuery,
 } from 'hooks'
-import style from './ProfilePage.module.scss'
 import { imagesMap } from 'consts'
 import { getProgressTemplate } from 'helpers/helpers'
 import type { IUserState } from 'types'
+import style from './ProfilePage.module.scss'
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const ProfilePage = () => {
@@ -109,7 +109,7 @@ export const ProfilePage = () => {
   return (
     <div className={style.container}>
       <ProfileEdit variant={authPopUp} closeFunc={closeFunc} />
-      <YesNoPopUp variant={cardEditPopUp} course={editPopUpCourse} agreeFunc={agreeFunc} closeFunc={closeFunc} />
+      <CourseAddPopup variant={cardEditPopUp} course={editPopUpCourse} agreeFunc={agreeFunc} closeFunc={closeFunc} />
 
       <div className={style.content}>
         <Header />

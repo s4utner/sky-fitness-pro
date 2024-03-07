@@ -1,7 +1,7 @@
-import { useState } from 'react'
 import { Button, Logo, Input } from 'components'
-import { updateLogin, updateUserPassword } from 'services/api'
+import { useState } from 'react'
 import { useStore } from 'store/AuthStore'
+import { updateLogin, updateUserPassword } from 'services/api'
 import type { FC, MouseEvent, PropsWithChildren } from 'react'
 import style from './ProfileEdit.module.scss'
 

@@ -17,8 +17,8 @@ export const CoursePage = () => {
     <div className={style.container}>
       {data ? (
         <>
-          <Header color="black" isButtonHided={true} />
           <div className={style.content}>
+            <Header color="black" isButtonHided={true} />
             <div className={style.preview}>
               <PromoImage name={data.nameEN as CourseNamesEnum} />
             </div>

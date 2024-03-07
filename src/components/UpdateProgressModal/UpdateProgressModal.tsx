@@ -1,8 +1,8 @@
-import type { FC } from 'react'
-import { useState, useEffect } from 'react'
 import { Input, Button, SuccessProgressModal } from 'components'
+import { useState, useEffect } from 'react'
 import { useUpdateUserProgress } from 'hooks'
 import type { IWorkout } from 'types'
+import type { FC } from 'react'
 import styles from './UpdateProgressModal.module.scss'
 
 interface UpdateProgressModalProps {

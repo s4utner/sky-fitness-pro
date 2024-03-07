@@ -1,5 +1,5 @@
-import styles from './Button.module.scss'
 import type { FC, ButtonHTMLAttributes } from 'react'
+import styles from './Button.module.scss'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'base' | 'green' | 'transparent' | 'red'

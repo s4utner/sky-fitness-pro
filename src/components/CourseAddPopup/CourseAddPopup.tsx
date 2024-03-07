@@ -1,24 +1,21 @@
 import { Button, Logo } from 'components'
-
 import type { FC, MouseEvent, PropsWithChildren } from 'react'
-import style from './YesNoPopUp.module.scss'
+import style from 'components/CourseAddPopup/CourseAddPopup.module.scss'
 
-interface YesNoPopUpProps {
+interface CourseAddPopupProps {
   variant?: 'delete' | 'add' | null
   course: string[]
   closeFunc?: () => void
   agreeFunc?: () => void
 }
 
-export const YesNoPopUp: FC<PropsWithChildren & YesNoPopUpProps> = ({
+export const CourseAddPopup: FC<PropsWithChildren & CourseAddPopupProps> = ({
   variant = 'add',
   closeFunc = () => {},
   course,
   agreeFunc = () => {},
-}) => {
-  if (variant === null) return
-
-  return (
+}) =>
+  variant ? (
     <div className={style.box} onClick={closeFunc}>
       <div onClick={(e: MouseEvent) => e.stopPropagation()} className={style.content}>
         <Logo />
@@ -46,5 +43,4 @@ export const YesNoPopUp: FC<PropsWithChildren & YesNoPopUpProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  ) : null
