@@ -8,5 +8,10 @@ export const useAddCourseQuery = (course: string[], progressTemp: IUserState['pr
   return useMutation({
     mutationFn: () => addCourse({ course, progressTemp }),
     onSuccess: () => client.invalidateQueries({ queryKey: ['user', 'state'] }),
+    onError: (error) => {
+      if (error instanceof Error) {
+        console.error(error.message)
+      }
+    },
   })
 }
