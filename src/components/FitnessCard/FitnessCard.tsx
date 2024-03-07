@@ -1,9 +1,8 @@
-import { Button } from 'components'
 import { useState, type FC, type PropsWithChildren } from 'react'
-import styles from './FitnessCard.module.scss'
-import type { IWorkouts } from 'types'
 import { useNavigate } from 'react-router-dom'
 import type { Dispatch, SetStateAction } from 'react'
+import type { IWorkouts } from 'types'
+import styles from './FitnessCard.module.scss'
 
 interface FitnessCardProps {
   variant?: 'main' | 'myProfile'
@@ -12,8 +11,8 @@ interface FitnessCardProps {
   userWorkouts?: { [index: string]: [boolean, ...number[]] }
   workoutsFromDB?: IWorkouts
   course?: string[]
-  setCardEditPopUp: Dispatch<SetStateAction<'delete' | 'add' | null>>
-  setEditPopUpCourse: Dispatch<SetStateAction<string[]>>
+  setCardEditPopUp?: Dispatch<SetStateAction<'delete' | 'add' | null>>
+  setEditPopUpCourse?: Dispatch<SetStateAction<string[]>>
 }
 
 export const FitnessCard: FC<PropsWithChildren & FitnessCardProps> = ({
@@ -79,8 +78,8 @@ export const FitnessCard: FC<PropsWithChildren & FitnessCardProps> = ({
             className={styles.delete}
             onClick={(e) => {
               e.stopPropagation()
-              setCardEditPopUp('delete')
-              setEditPopUpCourse(course)
+              setCardEditPopUp?.('delete')
+              setEditPopUpCourse?.(course)
             }}
           >
             &times;
