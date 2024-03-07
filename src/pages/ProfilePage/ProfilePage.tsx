@@ -1,4 +1,4 @@
-import { Header, Button, FitnessCard, ProfileEdit, YesNoPopUp, LoaderSpinner } from 'components'
+import { Header, Button, FitnessCard, ProfileEdit, CourseAddPopup, LoaderSpinner } from 'components'
 import { useState } from 'react'
 import { useStore } from 'store/AuthStore'
 import {
@@ -109,7 +109,7 @@ export const ProfilePage = () => {
   return (
     <div className={style.container}>
       <ProfileEdit variant={authPopUp} closeFunc={closeFunc} />
-      <YesNoPopUp variant={cardEditPopUp} course={editPopUpCourse} agreeFunc={agreeFunc} closeFunc={closeFunc} />
+      <CourseAddPopup variant={cardEditPopUp} course={editPopUpCourse} agreeFunc={agreeFunc} closeFunc={closeFunc} />
 
       <div className={style.content}>
         <Header />

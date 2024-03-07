@@ -16,11 +16,11 @@ export const WorkoutPage = () => {
   const { data: courseFromBD, isLoading: isCourseFromBDLoading } = useCourseQuery(course)
   const { data: workout, isLoading: isWorkoutLoading, isSuccess } = useWorkoutQuery(id)
 
-  const progressArrayForQuary: [boolean, ...number[]] = [true]
+  const progressArrayForQuery: [boolean, ...number[]] = [true]
   const { mutate: updateUserProgress, isSuccess: isSuccessUpdateUserProgress } = useUpdateUserProgress({
     course: course,
     workoutId: workout?._id as string,
-    progressArray: progressArrayForQuary,
+    progressArray: progressArrayForQuery,
   })
 
   if (isUserStateLoading || isCourseFromBDLoading || isWorkoutLoading) {

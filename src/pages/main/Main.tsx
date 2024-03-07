@@ -1,8 +1,8 @@
 import { Header, Button, FitnessCard, LoaderSpinner } from 'components'
-import { imagesMap } from 'consts'
-import sticker from 'assets/img/sticker.png'
 import { useNavigate } from 'react-router-dom'
 import { useAllCoursesQuery } from 'hooks'
+import { imagesMap } from 'consts'
+import sticker from 'assets/img/sticker.png'
 import style from './Main.module.scss'
 
 export const Main = () => {

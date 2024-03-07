@@ -1,6 +1,6 @@
-import { useState, type FC, type PropsWithChildren } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { Dispatch, SetStateAction } from 'react'
+import type { Dispatch, SetStateAction, FC, PropsWithChildren } from 'react'
 import type { IWorkouts } from 'types'
 import styles from './FitnessCard.module.scss'
 
@@ -36,7 +36,6 @@ export const FitnessCard: FC<PropsWithChildren & FitnessCardProps> = ({
         }
       : onClick
 
-  // Здесь можно вынести li-шку в отдельный компонент, но пока заморачиваться не захотел
   const workoutElements =
     userWorkouts &&
     workoutsFromDB &&
