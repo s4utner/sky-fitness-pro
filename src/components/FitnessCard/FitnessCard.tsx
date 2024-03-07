@@ -1,4 +1,3 @@
-import { Button } from 'components'
 import { useState, type FC, type PropsWithChildren } from 'react'
 import styles from './FitnessCard.module.scss'
 import type { IWorkouts } from 'types'
