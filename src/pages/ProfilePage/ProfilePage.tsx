@@ -90,10 +90,7 @@ export const ProfilePage = () => {
   const resultCourses = doCoursesExist ? [...(userState.courses ?? []), editPopUpCourse[0]] : [editPopUpCourse[0]]
   const resultCoursesForDel = doCoursesExist && userState.courses.filter((el) => el !== editPopUpCourse[0])
   const { mutate: addCourse } = useAddCourseQuery(resultCourses as string[], resultProgress as IUserState['progress'])
-  const { mutate: deleteCourse } = useDeleteCourseQuery(
-    resultCoursesForDel as string[],
-    resultProgress as IUserState['progress'],
-  )
+  const { mutate: deleteCourse } = useDeleteCourseQuery(resultCoursesForDel as string[], editPopUpCourse[0])
 
   const closeFunc = () => {
     setAuthPopUp(null)
