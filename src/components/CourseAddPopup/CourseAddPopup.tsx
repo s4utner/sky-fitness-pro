@@ -14,10 +14,8 @@ export const CourseAddPopup: FC<PropsWithChildren & CourseAddPopupProps> = ({
   closeFunc = () => {},
   course,
   agreeFunc = () => {},
-}) => {
-  if (variant === null) return
-
-  return (
+}) =>
+  variant ? (
     <div className={style.box} onClick={closeFunc}>
       <div onClick={(e: MouseEvent) => e.stopPropagation()} className={style.content}>
         <Logo />
@@ -45,5 +43,4 @@ export const CourseAddPopup: FC<PropsWithChildren & CourseAddPopupProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  ) : null
