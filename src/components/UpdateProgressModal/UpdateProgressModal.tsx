@@ -57,7 +57,7 @@ export const UpdateProgressModal: FC<UpdateProgressModalProps> = ({
       setErrorMessage('Значение прогресса не может быть отрицательным')
       return
     }
-    const isDecimalValue = progressValue.some((value) => Number.isInteger(value.value))
+    const isDecimalValue = progressValue.some((value) => Number(value.value) % 1 !== 0)
 
     if (isDecimalValue) {
       setErrorMessage('Дробные числа не допускаются')
