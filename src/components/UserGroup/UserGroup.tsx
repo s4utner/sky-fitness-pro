@@ -41,7 +41,7 @@ export const UserGroup: FC<UserGroupProps> = ({ login, color }) => {
           <Button
             onClick={async () => {
               await logoutUser()
-              setUser(null)
+              setUser(undefined)
             }}
             variant="green"
             width={100}
