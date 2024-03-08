@@ -1,5 +1,5 @@
 export { AuthPage } from './authPage/AuthPage'
 export { Main } from './main/Main'
-export { ProfilePage } from './ProfilePage/ProfilePage'
-export { WorkoutPage } from './workoutPage/WorkoutPage'
+export { ProfilePage } from 'pages/profilePage/profilePage.tsx'
+export { WorkoutPage } from 'pages/workoutPage/workoutPage.tsx'
 export { NotFoundPage } from './notFoundPage/NotFoundPage'
