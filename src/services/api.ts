@@ -1,5 +1,4 @@
 // Import the functions you need from the SDKs you need
-import type { User } from 'firebase/auth'
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -7,13 +6,13 @@ import {
   signOut,
   updateEmail,
   updatePassword,
+  type User,
 } from 'firebase/auth'
 import { initializeApp } from 'firebase/app'
 import { DEFAULT_USER_STATE } from 'consts'
 import { child, get, getDatabase, ref, update, remove } from 'firebase/database'
 import type { IUserState } from 'types'
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyBvuF-A_PIndBSDWJZUWSMJs86Ly-5tOyM',
   authDomain: 'sky-fitness-pro-2f260.firebaseapp.com',
@@ -28,60 +27,92 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 type StringObject = Record<string, string>
 
-// Initialize Cloud Firestore and get a reference to the service
 const db = ref(getDatabase(app))
-const user = getAuth(app).currentUser
 const getUserFromLS = (): User => JSON.parse(localStorage.getItem('user-storage') as string).state.user
 
 export const initUserState = async () => {
-  const user = getAuth(app).currentUser
-  if (user) {
-    const { uid } = user
-    const db = ref(getDatabase(app))
+  try {
+    const user = getAuth(app).currentUser
+    if (user) {
+      const { uid } = user
+      const db = ref(getDatabase(app))
 
-    return update(child(db, 'users'), {
-      [uid]: { ...DEFAULT_USER_STATE, _id: uid },
-    })
+      return update(child(db, 'users'), {
+        [uid]: { ...DEFAULT_USER_STATE, _id: uid },
+      })
+    }
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
   }
 }
 
 export const loginUser = async ({ email, password }: StringObject) => {
-  const response = await signInWithEmailAndPassword(getAuth(app), email, password)
-  return { ...response.user, password }
+  try {
+    const response = await signInWithEmailAndPassword(getAuth(app), email, password)
+    return { ...response.user, password }
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
 }
 
 export const createNewUser = async ({ email, password }: StringObject) => {
-  await createUserWithEmailAndPassword(getAuth(app), email, password)
-  const newUser = await loginUser({ email, password })
-  initUserState()
+  try {
+    await createUserWithEmailAndPassword(getAuth(app), email, password)
+    const newUser = loginUser({ email, password })
+    initUserState()
 
-  return newUser
+    return newUser
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
 }
 
 export const logoutUser = async () => {
-  await signOut(getAuth(app))
-  return true
+  try {
+    await signOut(getAuth(app))
+    return true
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
 }
 
 export const updateLogin = async ({ email }: StringObject) => {
-  if (user) return updateEmail(user, email)
+  try {
+    const userFromLS: User = getUserFromLS()
+    const user: User = getAuth(app).currentUser ?? userFromLS
+
+    if (user) return updateEmail(user, email)
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
 }
 
 export const updateUserPassword = async ({ password }: StringObject) => {
-  if (user) return updatePassword(user, password)
+  try {
+    const userFromLS: User = getUserFromLS()
+    const user: User = getAuth(app).currentUser ?? userFromLS
+
+    if (user) return updatePassword(user, password)
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
 }
 
 export const deleteCourse = async ({ course, courseIndex }: { course: string; courseIndex: number }) => {
-  const userFromLS: User = getUserFromLS()
+  try {
+    const userFromLS: User = getUserFromLS()
 
-  const user: User = getAuth(app).currentUser ?? userFromLS
-  const { uid } = user
+    const user: User = getAuth(app).currentUser ?? userFromLS
+    const { uid } = user
 
-  const pathToCourse = `users/${uid}/courses/${courseIndex}`
-  const pathToProgress = `users/${uid}/progress/${course}`
+    const pathToCourse = `users/${uid}/courses/${courseIndex}`
+    const pathToProgress = `users/${uid}/progress/${course}`
 
-  await remove(child(db, pathToCourse))
-  await remove(child(db, pathToProgress))
+    await remove(child(db, pathToCourse))
+    await remove(child(db, pathToProgress))
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
 }
 
 export const addCourse = async ({
@@ -91,20 +122,43 @@ export const addCourse = async ({
   course: string[]
   progressTemp: IUserState['progress']
 }) => {
-  const userFromLS: User = getUserFromLS()
-  const user: User = getAuth(app).currentUser ?? userFromLS
-  const { uid } = user
+  try {
+    const userFromLS: User = getUserFromLS()
+    const user: User = getAuth(app).currentUser ?? userFromLS
+    const { uid } = user
 
-  const pathToUser = `users/${uid}`
-  const pathToCourses = `users/${uid}`
+    const pathToUser = `users/${uid}`
+    const pathToCourses = `users/${uid}`
 
-  await update(child(db, pathToCourses), {
-    courses: course,
-  })
+    await update(child(db, pathToCourses), {
+      courses: course,
+    })
 
-  await update(child(db, pathToUser), {
-    progress: progressTemp,
-  })
+    await update(child(db, pathToUser), {
+      progress: progressTemp,
+    })
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
+}
+
+export const removeCourse = async ({ courses, course }: { courses: string[]; course: string }) => {
+  try {
+    const userFromLS: User = getUserFromLS()
+    const user: User = getAuth(app).currentUser ?? userFromLS
+    const { uid } = user
+
+    const pathToProgres = `users/${uid}/progress/${course}`
+    const pathToCourses = `users/${uid}`
+
+    await update(child(db, pathToCourses), {
+      courses: courses,
+    })
+
+    await remove(child(db, pathToProgres))
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
+  }
 }
 
 export const updateUserProgress = async ({
@@ -116,43 +170,54 @@ export const updateUserProgress = async ({
   workoutId: string
   progressArray: [boolean, ...number[]]
 }) => {
-  const userFromLS: User = JSON.parse(localStorage.getItem('user-storage') as string).state.user
+  try {
+    const userFromLS: User = JSON.parse(localStorage.getItem('user-storage') as string).state.user
 
-  const user: User = getAuth(app).currentUser ?? userFromLS
+    const user: User = getAuth(app).currentUser ?? userFromLS
 
-  if (user) {
-    const { uid } = user
+    if (user) {
+      const { uid } = user
 
-    const exercisePath = `users/${uid}/progress/${course}`
+      const exercisePath = `users/${uid}/progress/${course}`
 
-    return update(child(db, exercisePath), {
-      [workoutId]: progressArray,
-    })
+      return update(child(db, exercisePath), {
+        [workoutId]: progressArray,
+      })
+    }
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
   }
 }
 
 export const getDBChild = async <T>(childPath: string) => {
-  const requiredChild = await get(child(db, childPath))
+  try {
+    const requiredChild = await get(child(db, childPath))
 
-  if (requiredChild.exists() && requiredChild.val() !== undefined) {
-    return requiredChild.val() as T
+    if (requiredChild.exists() && requiredChild.val() !== undefined) {
+      return requiredChild.val() as T
+    }
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
   }
-  console.warn('Data was not found')
 }
 
 export const getUserState = async <T>() => {
-  const userFromLS: User = getUserFromLS()
+  try {
+    const userFromLS: User = getUserFromLS()
 
-  const user: User = getAuth(app).currentUser ?? userFromLS
+    const user: User = getAuth(app).currentUser ?? userFromLS
 
-  const { uid } = user
-  const path = `users/${uid}`
-  const requiredChild = await get(child(db, path))
+    const { uid } = user
+    const path = `users/${uid}`
+    const requiredChild = await get(child(db, path))
 
-  if (requiredChild.exists() && requiredChild.val() !== undefined) {
-    return requiredChild.val() as T
+    if (requiredChild.exists() && requiredChild.val() !== undefined) {
+      return requiredChild.val() as T
+    }
+  } catch (error) {
+    if (error instanceof Error) throw new Error(error.message)
   }
-  console.warn('Data was not found')
 }
 
+// На всякий пожарный случай
 // const baseUrl = 'https://sky-fitness-pro-2f260-default-rtdb.asia-southeast1.firebasedatabase.app/'

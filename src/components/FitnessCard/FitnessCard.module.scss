@@ -156,14 +156,16 @@
   }
 
   &::after {
-    content: '\1F5F8';
+    content: '';
     display: block;
-    width: 20px;
-    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg width='23' height='17' viewBox='0 0 23 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 9.81034L6.775 15.5L22 0.5' stroke='%2306B16E' stroke-width='2'/%3E%3C/svg%3E%0A");
+
+    width: 23px;
+    height: 17px;
     font-size: 40px;
     position: absolute;
-    top: -5px;
-    right: 15px;
+    top: 11px;
+    right: 9px;
     color: #06b16e;
   }
 }
