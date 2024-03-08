@@ -1,7 +1,7 @@
 .wrapper {
   position: fixed;
   top: center;
-  left: 50vw;
+  left: calc(50vw - 98px);
   display: flex;
   justify-content: center;
   align-items: center;

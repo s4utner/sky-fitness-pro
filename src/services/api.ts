@@ -1,5 +1,4 @@
 // Import the functions you need from the SDKs you need
-import type { User } from 'firebase/auth'
 import {
   createUserWithEmailAndPassword,
   getAuth,
@@ -7,6 +6,7 @@ import {
   signOut,
   updateEmail,
   updatePassword,
+  type User,
 } from 'firebase/auth'
 import { initializeApp } from 'firebase/app'
 import { DEFAULT_USER_STATE } from 'consts'
@@ -58,7 +58,7 @@ export const loginUser = async ({ email, password }: StringObject) => {
 export const createNewUser = async ({ email, password }: StringObject) => {
   try {
     await createUserWithEmailAndPassword(getAuth(app), email, password)
-    const newUser = await loginUser({ email, password })
+    const newUser = loginUser({ email, password })
     initUserState()
 
     return newUser

@@ -3,14 +3,14 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import type { ICustomUser } from 'types'
 
 interface IMyStore {
-  user: ICustomUser | null | undefined
-  setUser: (user: ICustomUser | null | undefined) => void
+  user: ICustomUser | undefined
+  setUser: (user: ICustomUser | undefined) => void
 }
 
 export const useStore = create<IMyStore>()(
   persist(
     (set) => ({
-      user: null,
+      user: undefined,
       setUser: (user) => set({ user }),
     }),
     {
