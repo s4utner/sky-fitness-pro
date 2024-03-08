@@ -3,7 +3,7 @@ import { useWorkoutQuery, useUserStateQuery, useCourseQuery, useUpdateUserProgre
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { createValidVideoUrl } from 'helpers/helpers'
-import styles from './WorkoutPage.module.scss'
+import styles from 'pages/workoutPage/workoutPage.module.scss'
 
 export const WorkoutPage = () => {
   const [isUpdateModalVisible, setIsUpdateModalVisible] = useState(false)

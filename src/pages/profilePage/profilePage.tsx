@@ -11,7 +11,7 @@ import {
 import { imagesMap } from 'consts'
 import { getProgressTemplate } from 'helpers/helpers'
 import type { IUserState } from 'types'
-import style from './ProfilePage.module.scss'
+import style from 'pages/profilePage/profilePage.module.scss'
 
 // eslint-disable-next-line sonarjs/cognitive-complexity
 export const ProfilePage = () => {
