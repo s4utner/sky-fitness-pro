@@ -155,10 +155,10 @@
     width: 100%;
   }
   .previousWorkoutButton {
-    font-size: 16px;
+    font-size: 14px;
   }
   .nextWorkoutButton {
-    font-size: 16px;
+    font-size: 14px;
   }
 
   .title {
@@ -168,9 +168,10 @@
     text-align: center;
   }
   .video {
-    padding: 10px;
+    margin: 0 auto;
+    padding-left: 10px;
     margin-top: 40px;
-    width: 430px;
+    max-width: 420px;
     height: 260px;
     margin-bottom: 75px;
   }
@@ -180,10 +181,10 @@
   }
 
   .progress {
-    width: 430px;
+    max-width: 420px;
     &Item {
       align-items: center;
-      width: 420px;
+      max-width: 410px;
     }
     &Text {
       width: 200px;
