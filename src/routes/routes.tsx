@@ -9,7 +9,7 @@ export function AppRoutes() {
 
   return (
     <Routes>
-      <Route element={<ProtectedRoute isAuthenticated={Boolean(isAuthenticated)} />}>
+      <Route element={<ProtectedRoute isAuthenticated={Boolean(isAuthenticated)} redirectPath={'/auth'} />}>
         <Route path="/profile" element={<ProfilePage />} />
       </Route>
       <Route path="/" element={<Main />} />
