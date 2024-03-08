@@ -4,10 +4,4 @@ import type { FC } from 'react'
 export const ProtectedRoute: FC<{ redirectPath?: string; isAuthenticated: boolean }> = ({
   redirectPath = '/',
   isAuthenticated,
-}) => {
-  if (!isAuthenticated) {
-    return <Navigate to={redirectPath} replace />
-  }
-
-  return <Outlet />
-}
+}) => isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} replace />
