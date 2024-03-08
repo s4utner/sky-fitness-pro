@@ -13,5 +13,10 @@ export const useUpdateUserProgress = ({ course, workoutId, progressArray }: IArg
   return useMutation({
     mutationFn: () => updateUserProgress({ course, workoutId, progressArray }),
     onSuccess: () => client.invalidateQueries({ queryKey: ['user', 'state'] }),
+    onError: (error) => {
+      if (error instanceof Error) {
+        console.error(error.message)
+      }
+    },
   })
 }

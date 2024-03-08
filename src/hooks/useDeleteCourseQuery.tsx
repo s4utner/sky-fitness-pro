@@ -7,5 +7,10 @@ export const useDeleteCourseQuery = (courses: string[], course: string) => {
   return useMutation({
     mutationFn: () => removeCourse({ courses, course }),
     onSuccess: () => client.invalidateQueries({ queryKey: ['user', 'state'] }),
+    onError: (error) => {
+      if (error instanceof Error) {
+        console.error(error.message)
+      }
+    },
   })
 }
