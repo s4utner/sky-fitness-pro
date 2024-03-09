@@ -97,6 +97,7 @@ export const WorkoutPage = () => {
           className={styles.video}
           src={createValidVideoUrl(isSuccess ? workout.video : '')}
           frameBorder={0}
+          width={'100%'}
           allowFullScreen
         />
         <div className={styles.description}>
