@@ -15,10 +15,6 @@ export function AuthPage() {
   const [errorMessage, setErrorMessage] = useState('')
   const navigate = useNavigate()
 
-  interface login {
-    value: string | number
-    placeholder: string
-  }
 
   const setUser = useStore((state) => state.setUser)
 
