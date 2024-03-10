@@ -37,28 +37,12 @@ export const WorkoutPage = () => {
   const [, ...currentProgress] = progressArray
   const isDone = progressArray[0]
 
-  const handleOpenUpdateModal = () => {
-    setIsUpdateModalVisible(true)
-  }
-
-  const handleOpenSuccessModal = () => {
-    setIsSuccessModalVisible(true)
-  }
-
   const handleCloseUpdateModal = () => {
     setIsUpdateModalVisible(false)
   }
 
-  const handleCloseSuccessModal = () => {
-    setIsSuccessModalVisible(false)
-  }
-
   const handleButtonActive = () => {
     setIsButtonDisabled(false)
-  }
-
-  const handleButtonDisabled = () => {
-    setIsButtonDisabled(true)
   }
 
   return workout ? (
@@ -122,12 +106,12 @@ export const WorkoutPage = () => {
                 fontSize={18}
                 disabled={isButtonDisabled}
                 onClick={() => {
-                  handleButtonDisabled()
+                  setIsButtonDisabled(true)
 
                   if (workout.exercises) {
-                    handleOpenUpdateModal()
+                    setIsUpdateModalVisible(true)
                   } else {
-                    handleOpenSuccessModal()
+                    setIsSuccessModalVisible(true)
                     updateUserProgress()
                   }
                 }}
@@ -166,7 +150,7 @@ export const WorkoutPage = () => {
           className={styles.successModalBackground}
           onClick={() => {
             handleButtonActive()
-            handleCloseSuccessModal()
+            setIsSuccessModalVisible(false)
           }}
         >
           <div className={styles.successModalContainer} onClick={(event) => event.stopPropagation()}>
