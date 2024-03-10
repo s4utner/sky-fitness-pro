@@ -37,14 +37,6 @@ export const WorkoutPage = () => {
   const [, ...currentProgress] = progressArray
   const isDone = progressArray[0]
 
-  const handleCloseUpdateModal = () => {
-    setIsUpdateModalVisible(false)
-  }
-
-  const handleButtonActive = () => {
-    setIsButtonDisabled(false)
-  }
-
   return workout ? (
     <div className={isUpdateModalVisible || isSuccessModalVisible ? styles.modalContainer : styles.courseContainer}>
       <div className={styles.content}>
@@ -141,15 +133,15 @@ export const WorkoutPage = () => {
           courseId={course}
           workout={workout}
           currentProgressArray={progressArray as [boolean, ...number[]]}
-          closeModal={handleCloseUpdateModal}
-          activateButton={handleButtonActive}
+          closeModal={() => setIsUpdateModalVisible(false)}
+          activateButton={() => setIsButtonDisabled(false)}
         />
       )}
       {isSuccessUpdateUserProgress && isSuccessModalVisible && (
         <div
           className={styles.successModalBackground}
           onClick={() => {
-            handleButtonActive()
+            setIsButtonDisabled(false)
             setIsSuccessModalVisible(false)
           }}
         >
