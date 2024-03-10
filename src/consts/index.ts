@@ -8,7 +8,7 @@ export const DEFAULT_USER_STATE: IUserState = {
     bodyflex: { xlpkqy: [false, 0, 0, 0], '17oz5f': [false, 0, 0, 0], pyvaec: [false, 0, 0, 0] },
     stepairobic: {
       e9ghsb: [false],
-      a1rqtt: [false],
+      f1rqtt: [false],
       mstcbg: [false],
       t3cpno: [false],
     },
