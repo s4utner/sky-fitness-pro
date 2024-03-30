@@ -1,0 +1,181 @@
+.box {
+  position: relative;
+  width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  border-radius: 30px;
+}
+
+.card {
+  position: relative;
+  width: 360px;
+  height: 480px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 30px;
+
+  font-weight: 800;
+  font-size: 36px;
+  line-height: 39.6px;
+  letter-spacing: -0.5px;
+  transition: all 1s;
+
+  &:hover > .delete {
+    display: block;
+  }
+}
+
+.delete {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  color: rgba(255, 0, 0, 0.558);
+  font-weight: 100;
+  font-size: 80px;
+  display: none;
+}
+
+.myProfile {
+  box-shadow:
+    -10px 10px 15.998822212219238px 0px #0000001a,
+    10px -10px 16px 0px #0000001a;
+}
+
+.back {
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 360px;
+  height: 480px;
+  padding: 25px 25px 40px 25px;
+  border-radius: 30px;
+
+  background-color: #f8f8f8;
+  transform: perspective(1000px) rotateY(180deg);
+  backface-visibility: hidden;
+  transition: all 1s;
+  overflow: hidden;
+}
+
+.flip {
+  &_back {
+    transition: all 1s;
+    backface-visibility: hidden;
+    transform: perspective(1000px) rotateY(0deg);
+  }
+
+  &_face {
+    transition: all 1s;
+    backface-visibility: hidden;
+    transform: perspective(600px) rotateY(-180deg);
+  }
+}
+
+.workoutsBox {
+  padding: 0 10px 0 10px;
+  margin: 10px 0;
+  height: 100%;
+  overflow: auto;
+  box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    width: 5px; /* ширина всей полосы прокрутки */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #0000000d; /* цвет зоны отслеживания */
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #00000026; /* цвет бегунка */
+    border-radius: 20px; /* округлось бегунка */
+    // border: 3px solid orange; /* отступ вокруг бегунка */
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  list-style: none;
+}
+
+.workoutItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 26px;
+  width: 100%;
+  text-align: center;
+  width: 280px;
+  border: 1px solid black;
+
+  &:hover {
+    color: #0093fc;
+    border-color: #0093fc;
+  }
+}
+
+.workoutTitle {
+  max-width: 190px;
+  font-size: 20px;
+  line-height: 23px;
+}
+
+.description {
+  margin-top: 8px;
+  font-size: 16px;
+  line-height: 18px;
+}
+
+.done {
+  color: #06b16e;
+  border-color: #06b16e;
+
+  &::before {
+    content: '';
+    display: block;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: 1px solid #06b16e;
+    border-radius: 50%;
+  }
+
+  &::after {
+    content: '';
+    display: block;
+    background-image: url("data:image/svg+xml,%3Csvg width='23' height='17' viewBox='0 0 23 17' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 9.81034L6.775 15.5L22 0.5' stroke='%2306B16E' stroke-width='2'/%3E%3C/svg%3E%0A");
+
+    width: 23px;
+    height: 17px;
+    font-size: 40px;
+    position: absolute;
+    top: 11px;
+    right: 9px;
+    color: #06b16e;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .box {
+    position: relative;
+    width: 360px;
+    height: 480px;
+    cursor: pointer;
+    border-radius: 30px;
+  }
+}

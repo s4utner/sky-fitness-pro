@@ -1,0 +1,13 @@
+.logo {
+  display: flex;
+  gap: 10px;
+  height: 30px;
+
+  cursor: pointer;
+}
+
+@media screen and (max-width: 430px) {
+  .logo {
+    width: 30%;
+  }
+}
