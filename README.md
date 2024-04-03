@@ -1,10 +1,10 @@
-# Sky fitness pro
+# Sky Fitness pro
 
 _Приложение для онлайн тренировок с видеоматериалами и отслеживанием прогресса_
 
 ## Ссылка на приложение
 
-[**Sky-fitness-pro**](https://sky-fitness-pro-lime.vercel.app/)
+[**Sky Fitness Pro**](https://sky-fitness-pro-lime.vercel.app/)
 
 ## Установка и запуск
 
