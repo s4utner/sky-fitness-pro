@@ -4,7 +4,7 @@ _Приложение для онлайн тренировок с видеома
 
 ## Ссылка на приложение
 
-[**Sky-fitness-pro**](https://sky-search-pro.vercel.app/)
+[**Sky-fitness-pro**](https://sky-fitness-pro-lime.vercel.app/)
 
 ## Установка и запуск
 
